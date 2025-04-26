@@ -72,3 +72,15 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+# Obsidian specific files and folders
+.obsidian/
+.obsidian/workspace.json
+.obsidian/workspace
+.obsidian/plugins/
+.obsidian/themes/
+.trash/
+
+# macOS specific files
+.DS_Store
