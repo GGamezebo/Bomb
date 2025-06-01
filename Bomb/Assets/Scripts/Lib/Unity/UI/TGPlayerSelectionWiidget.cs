@@ -28,10 +28,6 @@ namespace Lib.Unity.UI
 
         private GameObject currentlyDraggedIcon = null; // Ссылка на перетаскиваемую иконку
 
-        public static string
-            evAddPlayer = "SelectionWidget.AddPlayer",
-            evRemovePlayer = "SelectionWidget.evRemovePlayer";
-
         protected virtual void Start()
         {
             // Инициализация и подключение событий
@@ -42,9 +38,15 @@ namespace Lib.Unity.UI
     
             circleRadius = (float)(gameObject.GetComponent<RectTransform>().rect.width * 0.35);
         }
-
-        protected virtual void SendEvent(string eventName, params object[] args)
+        
+        protected virtual void OnPlayerAdded(string playerName)
         {
+            
+        }
+        
+        protected virtual void OnPlayerRemoved(string playerName)
+        {
+            
         }
 
         void OpenModal()
@@ -117,7 +119,7 @@ namespace Lib.Unity.UI
             InputPlayer.text = ""; 
             UpdatePlayerPositions();
             
-            SendEvent(evAddPlayer);
+            OnPlayerAdded(playerName);
             
             
             CanvasGroup canvasGroup = modalPanel.GetComponent<CanvasGroup>();
@@ -173,7 +175,6 @@ namespace Lib.Unity.UI
             dragHandler.playerSelectionWidget = this; // Передаем ссылку на виджет
 
             playerIcons.Add(newIcon);
-            SendEvent("");
         }
 
         protected void UpdatePlayerPositions()
@@ -239,7 +240,7 @@ namespace Lib.Unity.UI
                 Destroy(icon);
                 UpdatePlayerPositions();
                 
-                SendEvent(evRemovePlayer);
+                OnPlayerRemoved(playerName);
             }
         }
 

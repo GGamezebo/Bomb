@@ -3,6 +3,7 @@ using Lib.Unity.UI;
 #endif
 
 using System;
+using Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -37,16 +38,16 @@ namespace UI
             UpdateState();
             var button = GetComponent<Button>();
             button.onClick.AddListener(OnStartGame);
-            _eventListener.Add(TGPlayerSelectionWidget.evAddPlayer, new Action(OnAddPlayer));
-            _eventListener.Add(TGPlayerSelectionWidget.evRemovePlayer, new Action(OnRemovePlayer));
+            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnAddPlayer));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnRemovePlayer));
         }
 
-        private void OnAddPlayer()
+        private void OnAddPlayer(string playerName)
         {
             UpdateState();
         }
 
-        private void OnRemovePlayer()
+        private void OnRemovePlayer(string playerName)
         {
             UpdateState();
         }

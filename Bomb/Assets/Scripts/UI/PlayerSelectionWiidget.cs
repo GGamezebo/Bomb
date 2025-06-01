@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Common;
 using Lib.Unity.UI;
 
 
@@ -29,9 +30,16 @@ namespace UI
             UpdatePlayerPositions();
         }
         
-        protected override void SendEvent(string eventName, params object[] args)
+        protected override void OnPlayerAdded(string playerName)
         {
-            _event.Call(eventName, args);
+            _globalContext.AccountData.Save();
+            _event.Call(Events.EvPlayerAdded, playerName);
+        }
+        
+        protected override void OnPlayerRemoved(string playerName)
+        {
+            _globalContext.AccountData.Save();
+            _event.Call(Events.EvPlayerRemoved, playerName);
         }
     }
 }
