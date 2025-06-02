@@ -42,7 +42,6 @@ public class Explosion
 public class Bomb
 {
     private Game game;
-    private BombAnimation _animation;
     public Bomb(Game game)
     {
        this.game = game;
@@ -61,14 +60,9 @@ public class Bomb
         duration = 0;
         isAlerted = false;
         isExploded = false;
-
-        _animation = UnityEngine.Object.FindFirstObjectByType<BombAnimation>();
-        _animation.SetAlertAnim(isAlerted);
-        _animation.PlayAnimStep(BombAnimStates.comes);
     }
 
 
-    // Constants.BonusBombAliveTime - может тоже сделать небольшим рандомом вместо константы?
     public void tryAddBonusTime()
     {
         if (isAlerted)
@@ -85,19 +79,16 @@ public class Bomb
             return;
         }
 
-        // Анимации сделаны так, что могут переходить из состояния Alert обратно в обычное состояние. Возможно стоит добавить такой переход и в логике, например в методе tryAddBonusTime()
         if (!isAlerted && (aliveTime - duration) < Constants.AlertBombTime)
         {
             game.onAlert();
             isAlerted = true;
-            _animation.SetAlertAnim(isAlerted);
         }
 
         if ((aliveTime - duration) <= 0)
         {
             game.OnExplosion();
             isExploded = true;
-            _animation.PlayAnimStep(BombAnimStates.boom);
             return;
         }
 
@@ -139,6 +130,8 @@ public struct Card
 
 public class Game : MonoBehaviour
 {
+    [SerializeField] private AnimatorController _animation;
+
     private GlobalContext _globalContext;
     public List<String> playerNames = new ();
     public List<Player> players_ = new List<Player>();
@@ -168,7 +161,6 @@ public class Game : MonoBehaviour
         
         _bomb = new Bomb(this);
         _explosion = new Explosion(this);
-
         // UserPreferenceData userPreferenceData = UserPreference.Load();
         var pdata = _globalContext.PData();
         foreach (string playerName in pdata.playerNames)
@@ -299,6 +291,7 @@ public class Game : MonoBehaviour
                     _bomb.init();
                     _explosion.init();
                     setState(GameState.Play);
+                    _animation.PlayAnimStep(AnimStates.comes);
                 }
                 break;
             case GameState.Play:
@@ -330,6 +323,7 @@ public class Game : MonoBehaviour
     public void onAlert()
     {
         _event.Call(Events.EvAlert);
+        _animation.PlayAnimStep(AnimStates.alert);
     }    
 
     public void OnReadyToStart()
@@ -338,6 +332,7 @@ public class Game : MonoBehaviour
         {
             nextPlayer();
             setState(GameState.ReadyToStart);
+            _animation.PlayAnimStep(AnimStates.ready);
         }
     }
 
@@ -346,5 +341,6 @@ public class Game : MonoBehaviour
         var player = getCurrentPlayer();
         player.explosion();
         setState(GameState.Explosion);
+        _animation.PlayAnimStep(AnimStates.boom);
     }
 }
