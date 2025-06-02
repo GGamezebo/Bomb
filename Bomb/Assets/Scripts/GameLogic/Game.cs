@@ -42,6 +42,7 @@ public class Explosion
 public class Bomb
 {
     private Game game;
+    private BombAnimation _animation;
     public Bomb(Game game)
     {
        this.game = game;
@@ -60,8 +61,14 @@ public class Bomb
         duration = 0;
         isAlerted = false;
         isExploded = false;
+
+        _animation = UnityEngine.Object.FindFirstObjectByType<BombAnimation>();
+        _animation.SetAlertAnim(isAlerted);
+        _animation.PlayAnimStep(BombAnimStates.comes);
     }
 
+
+    // Constants.BonusBombAliveTime - может тоже сделать небольшим рандомом вместо константы?
     public void tryAddBonusTime()
     {
         if (isAlerted)
@@ -78,16 +85,19 @@ public class Bomb
             return;
         }
 
+        // Анимации сделаны так, что могут переходить из состояния Alert обратно в обычное состояние. Возможно стоит добавить такой переход и в логике, например в методе tryAddBonusTime()
         if (!isAlerted && (aliveTime - duration) < Constants.AlertBombTime)
         {
             game.onAlert();
             isAlerted = true;
+            _animation.SetAlertAnim(isAlerted);
         }
 
         if ((aliveTime - duration) <= 0)
         {
             game.OnExplosion();
             isExploded = true;
+            _animation.PlayAnimStep(BombAnimStates.boom);
             return;
         }
 
