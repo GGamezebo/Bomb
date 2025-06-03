@@ -7,12 +7,14 @@ using Event = Lib.Event;
 public class GlobalContext : MonoBehaviour
 {
     private EventManager _eventManager;
-    public AccountPersistentObject AccountData;
+    
+    [Tooltip("Account persistent data")]
+    [SerializeField] public AccountPersistentDataComponent accountData;
     
     void Awake()
     {
         _eventManager = new EventManager();
-        AccountData = GetComponent<AccountPersistentObject>();
+        accountData = GetComponent<AccountPersistentDataComponent>();
     }
 
     public EventListener MakeEventListener()
@@ -27,7 +29,7 @@ public class GlobalContext : MonoBehaviour
     
     public AccountPersistentData PData()
     {
-        return AccountData.data;
+        return accountData.data;
     }
 }
 

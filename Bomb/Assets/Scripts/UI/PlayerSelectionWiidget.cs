@@ -22,7 +22,6 @@ namespace UI
         {
             base.Start();
             PlayerNames = _globalContext.PData().playerNames;
-            PlayerColors = _globalContext.AccountData.gameSettings.colors;
             foreach (var playerName in PlayerNames)
             {
                 CreatePlayerIcon(playerName);
@@ -32,13 +31,13 @@ namespace UI
         
         protected override void OnPlayerAdded(string playerName)
         {
-            _globalContext.AccountData.Save();
+            _globalContext.accountData.Save();
             _event.Call(Events.EvPlayerAdded, playerName);
         }
         
         protected override void OnPlayerRemoved(string playerName)
         {
-            _globalContext.AccountData.Save();
+            _globalContext.accountData.Save();
             _event.Call(Events.EvPlayerRemoved, playerName);
         }
     }

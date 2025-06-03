@@ -3,16 +3,15 @@ using UnityEngine.Serialization;
 
 namespace Lib.Unity.Serialization
 {
-    public class SerializablePersistentObject<T> : PersistentObject where T : new()
+    public class SerializablePersistentDataComponent<T> : MonoBehaviour where T : new()
     {
         [Header("Serialization")]
         [SerializeField] private string saveFileName = "persistentObjects.json";
     
         public T data;
 
-        protected override void InitializePersistentObject()
+        private void Awake()
         {
-            base.InitializePersistentObject();
             
 // #if UNITY_ANDROID
 //             if (Application.platform == RuntimePlatform.Android)
@@ -31,7 +30,7 @@ namespace Lib.Unity.Serialization
             Load();
         }
 
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             Save();
         }
@@ -42,7 +41,7 @@ namespace Lib.Unity.Serialization
             {
                 data = new T();
             }
-            OnSaveState();
+            OnPDataSave();
             SerializationManager.Save(data, saveFileName);
         }
 
@@ -56,10 +55,10 @@ namespace Lib.Unity.Serialization
             {
                 data = new T();
             }
-            OnLoadState();
+            OnPDataLoaded();
         }
 
-        protected virtual void OnSaveState() { }
-        protected virtual void OnLoadState() { }
+        protected virtual void OnPDataSave() { }
+        protected virtual void OnPDataLoaded() { }
     }
 }

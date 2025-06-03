@@ -12,12 +12,13 @@ namespace Account
         public List<string> playerNames = new ();
     }
 
-    public class AccountPersistentObject : SerializablePersistentObject<AccountPersistentData>
+    public class AccountPersistentDataComponent : SerializablePersistentDataComponent<AccountPersistentData>
     {
-        public GameSettings gameSettings;
+        [Tooltip("Static global game settings")]
+        [SerializeField] private GameSettings gameSettings;
         
 #if UNITY_EDITOR
-        protected override void OnLoadState()
+        protected override void OnPDataLoaded()
         {
             data.playerNames = gameSettings.devPlayerNames;
         }

@@ -25,7 +25,6 @@ namespace Lib
             {
                 var currentDelegate = _eventDictionary[eventName];
                 currentDelegate = Delegate.Remove(currentDelegate, eventHandler);
-
                 if (currentDelegate == null)
                 {
                     _eventDictionary.Remove(eventName);
