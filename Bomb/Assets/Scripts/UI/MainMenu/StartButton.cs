@@ -1,15 +1,12 @@
-using Lib.Unity.UI;
 #if UNITY_ANDROID 
 #endif
-
 using System;
 using Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Action = System.Action;
 
-namespace UI
+namespace UI.MainMenu
 {
     public class StartButton : MonoBehaviour
     {

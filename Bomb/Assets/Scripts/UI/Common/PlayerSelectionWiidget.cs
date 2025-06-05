@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using Common;
 using Lib.Unity.UI;
 
-
-namespace UI
+namespace UI.Common
 {
     public class PlayerSelectionWidget : TGPlayerSelectionWidget
     {
