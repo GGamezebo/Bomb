@@ -38,8 +38,8 @@ public class AccelerometerController : MonoBehaviour
     private Vector3 Smooth(Vector3 sprite, Vector3 device)
     {
         _smoothedAccel = new Vector3(
-            Mathf.Lerp(sprite.x, device.x, _updateSpeed * Time.deltaTime), 
-            Mathf.Lerp(sprite.y, device.y, _updateSpeed * Time.deltaTime), 
+            Mathf.Lerp(sprite.x, device.x, _updateSpriteSpeed * Time.deltaTime), 
+            Mathf.Lerp(sprite.y, device.y, _updateSpriteSpeed * Time.deltaTime), 
             0f);
         return _smoothedAccel;
     }
