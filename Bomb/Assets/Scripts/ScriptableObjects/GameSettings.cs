@@ -7,7 +7,7 @@ namespace ScriptableObjects
     public class GameSettings : ScriptableObject
     {
         public int maxPlayers = 12;
-        public List<string> devPlayerNames = new() { "Игорь", "Герман" };
+        public List<string> devPlayerNames = new() { "Igor", "Герман" };
         public List<Color> colors = new () {
             Color.red,
             Color.green,
