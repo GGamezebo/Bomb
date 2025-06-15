@@ -16,22 +16,22 @@ MonoBehaviour:
   devPlayerNames:
   - "\u0418\u0433\u043E\u0440\u044C"
   - "\u0413\u0435\u0440\u043C\u0430\u043D"
-  colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 0, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0.6470588, b: 0, a: 1}
-  - {r: 0, g: 0, b: 0, a: 1}
-  - {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  - {r: 0.6470588, g: 0.1647059, b: 0.1647059, a: 1}
-  - {r: 0.5411765, g: 0.1686275, b: 0.8862746, a: 1}
-  - {r: 0.4980392, g: 1, b: 0.8313726, a: 1}
   countdownTime: 5
   minBombAliveTime: 10
   maxBombAliveTime: 60
   bonusBombAliveTime: 5
   alertBombTime: 5
   explosionCountdownTime: 5
+  colorIcons:
+  - {fileID: -4646876343654227710, guid: 09da25eef7305264f90011d50c0d2345, type: 3}
+  - {fileID: -6036146622879419313, guid: dbf5cc0e1e675dc45bb500aab978f2e0, type: 3}
+  - {fileID: 6168737785598421730, guid: d3f8c61651163514da7d088935d97d7d, type: 3}
+  - {fileID: -2605532414636746613, guid: 5947265bfb95d6d4e844a6c7156163c4, type: 3}
+  - {fileID: -6138612802710836934, guid: 07ae54aedb5f30546883c5433a8e1496, type: 3}
+  - {fileID: -4530555400904516697, guid: 440c4c787303d1e4eba2143f8f2efbde, type: 3}
+  - {fileID: -3290573182547071134, guid: f4464965796444c4b9d15c2b4d006ca2, type: 3}
+  - {fileID: 5187726830813494848, guid: f1643e72a5308a54e804ce1d9eadbc74, type: 3}
+  - {fileID: 8256805040061543948, guid: 77d575b61b089c046b84647337f18c0f, type: 3}
+  - {fileID: 5565214527167111381, guid: 2c2cd7d01b799904fa35badedb3fa8f4, type: 3}
+  - {fileID: 289548755153922282, guid: 7ca134d179f673f4c8e175f2e4361876, type: 3}
+  - {fileID: -4281594844805818344, guid: 6fa6657ec57959d4bb296f49c06d4211, type: 3}

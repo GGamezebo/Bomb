@@ -1,7 +1,7 @@
+using System;
 using Account;
 using Lib;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Event = Lib.Event;
 
 public class GlobalContext : MonoBehaviour
@@ -10,11 +10,14 @@ public class GlobalContext : MonoBehaviour
     
     [Tooltip("Account persistent data")]
     [SerializeField] public AccountPersistentDataComponent accountData;
+
+    public GameLogic.Storage Storage;
     
     void Awake()
     {
         _eventManager = new EventManager();
         accountData = GetComponent<AccountPersistentDataComponent>();
+        Storage = GetComponent<GameLogic.Storage>();
     }
 
     public EventListener MakeEventListener()
