@@ -249,7 +249,6 @@ namespace Lib.Unity.UI
         {
             public TGPlayerSelectionWidget playerSelectionWidget; // Ссылка на основной виджет
             public Vector3 startPosition;
-            private bool _isDragging;
             private int siblingIndex;
 
             // public void OnBeginDrag(PointerEventData eventData)
@@ -267,7 +266,6 @@ namespace Lib.Unity.UI
             
             public void OnPointerDown(PointerEventData eventData)
             {
-                _isDragging = true;
                 transform.SetAsLastSibling();
                 //playerSelectionWidget.StartDragging(gameObject);
               //  GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -275,7 +273,6 @@ namespace Lib.Unity.UI
             
             public void OnPointerUp(PointerEventData eventData)
             {
-                _isDragging = false;
                 transform.SetSiblingIndex(siblingIndex); 
                 //GetComponent<CanvasGroup>().blocksRaycasts = true;
                 //playerSelectionWidget.StopDragging(gameObject);

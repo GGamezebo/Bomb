@@ -21,7 +21,7 @@ namespace GameLogic
     {
         public const float CountdownTime = 5.0f;
         public const float MinBombAliveTime = 10.0f;
-        public const float MaxBombAliveTime = 20.0f;
+        public const float MaxBombAliveTime = 60.0f;
         public const float BonusBombAliveTime = 3;
         public const float AlertBombTime = 5;
         public const float ExplosionCountdownTime = 5;
