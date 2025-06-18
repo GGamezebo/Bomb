@@ -19,11 +19,18 @@ namespace UI.MainMenu
         {
             _globalContext = FindFirstObjectByType<GlobalContext>();
             _eventListener = _globalContext.MakeEventListener();
+            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnAddPlayer));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnRemovePlayer));
+        }
+        
+        private void OnDisable()
+        {
+            _eventListener.RemoveAllListeners();
         }
 
         private void UpdateState()
         {
-            var isActive = _globalContext.PData().playerNames.Count >= 2;
+            var isActive = _globalContext.PData().players.Count >= 2;
             var button = GetComponent<Button>();
             button.interactable = isActive;
             var image = GetComponent<Image>();
@@ -35,8 +42,6 @@ namespace UI.MainMenu
             UpdateState();
             var button = GetComponent<Button>();
             button.onClick.AddListener(OnStartGame);
-            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnAddPlayer));
-            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnRemovePlayer));
         }
 
         private void OnAddPlayer(string playerName)

@@ -1,5 +1,6 @@
 using Common;
 using Lib.Unity.UI;
+using System.Linq;
 
 namespace UI.Common
 {
@@ -19,7 +20,7 @@ namespace UI.Common
         protected override void Start()
         {
             base.Start();
-            PlayerNames = _globalContext.PData().playerNames;
+            PlayerNames = _globalContext.PData().players.Select(player => player.name).ToList();
             foreach (var playerName in PlayerNames)
             {
                 CreatePlayerIcon(playerName);

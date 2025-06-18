@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Account;
 using UnityEngine;
 
 
@@ -10,7 +11,11 @@ namespace ScriptableObjects
     public class GameSettings : ScriptableObject
     {
         public int maxPlayers = 12;
-        public List<string> devPlayerNames = new() { "Игорь", "Герман" };
+        public List<PlayerInfo> devPlayerNames = new()
+        {
+            new PlayerInfo("Igor", 0),
+            new PlayerInfo("German", 1),
+        };
 
         public float countdownTime = 5.0f;
         public float minBombAliveTime = 10.0f;

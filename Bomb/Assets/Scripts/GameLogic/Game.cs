@@ -163,9 +163,9 @@ public class Game : MonoBehaviour
         _explosion = new Explosion(this);
         // UserPreferenceData userPreferenceData = UserPreference.Load();
         var pdata = _globalContext.PData();
-        foreach (string playerName in pdata.playerNames)
+        foreach (var playerInfo in pdata.players)
         {
-            players_.Add(new Player(playerName));
+            players_.Add(new Player(playerInfo.name));
         }
 
         List<string> cardsStrings = new List<string>(Constants.Cards);

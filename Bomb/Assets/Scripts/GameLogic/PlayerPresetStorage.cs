@@ -7,7 +7,7 @@ namespace GameLogic
 {
     public class PlayerPreset
     {
-        public readonly Sprite ColorTag;
+        private readonly Sprite ColorTag;
         
         public PlayerPreset(Sprite colorTag)
         {
@@ -20,7 +20,7 @@ namespace GameLogic
         }
     }
     
-    public class Storage : MonoBehaviour
+    public class PlayerPresetStorage : MonoBehaviour
     {
         [SerializeField] private GameSettings gameSettings;
         private Dictionary<int, PlayerPreset> _storage = new ();
