@@ -22,12 +22,12 @@ namespace UI
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
-        protected void OnCurrentPlayerChanged()
+        private void OnCurrentPlayerChanged()
         {
             UpdateState(GameComponent.State);
         }
 
-        void OnGameStateChanged(GameState state)
+        private void OnGameStateChanged(GameState state)
         {
             UpdateState(state);
         }
