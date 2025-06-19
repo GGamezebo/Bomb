@@ -9,12 +9,12 @@ namespace Account
     public class PlayerInfo
     {
         public string name;
-        public int colorPresetId;
+        public int presetId;
         
-        public PlayerInfo(string name, int colorPresetId)
+        public PlayerInfo(string name, int presetId)
         {
             this.name = name;
-            this.colorPresetId = colorPresetId;
+            this.presetId = presetId;
         }
     }
     

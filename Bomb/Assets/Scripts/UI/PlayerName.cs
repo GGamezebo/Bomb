@@ -1,5 +1,6 @@
 using Common;
 using GameLogic;
+using System;
 using UnityEngine.UI;
 
 namespace UI
@@ -7,6 +8,13 @@ namespace UI
     public class PlayerName : GameObserverMonoBehaviour
     {
         TMPro.TextMeshProUGUI textComponent;
+
+        protected override void Subscribe()
+        {
+            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(OnCurrentPlayerChanged));
+            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
+        }
+
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -14,12 +22,12 @@ namespace UI
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
-        protected override void OnCurrentPlayerChanged()
+        protected void OnCurrentPlayerChanged()
         {
             UpdateState(GameComponent.State);
         }
 
-        protected override void OnStateChanged(GameState state)
+        void OnGameStateChanged(GameState state)
         {
             UpdateState(state);
         }

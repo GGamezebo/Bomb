@@ -1,6 +1,7 @@
 using System;
 using GameLogic;
 using UnityEngine;
+using Common;
 
 namespace Common
 {
@@ -20,10 +21,7 @@ namespace Common
         {
             var globalContext = FindFirstObjectByType<GlobalContext>();
             _eventListener = globalContext.MakeEventListener();
-            if (this.didStart)
-            {
-                Subscribe();
-            }
+            Subscribe();
         }
 
         protected virtual void OnDisable()
@@ -35,29 +33,11 @@ namespace Common
         {
             var game = GameObject.Find("Game");
             GameComponent = game.GetComponent<Game>();
-            Subscribe();
         }
 
-        protected virtual void OnStateChanged(GameState state)
-        {
-            
-        }
-
-        protected virtual void OnCurrentPlayerChanged()
+        protected virtual void Subscribe()
         {
 
-        }
-
-        protected virtual void OnAlert()
-        {
-
-        }
-
-        private void Subscribe()
-        {
-            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnStateChanged));
-            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(OnCurrentPlayerChanged));
-            _eventListener.Add(Events.EvAlert, new Action(OnAlert));
         }
     }
 }

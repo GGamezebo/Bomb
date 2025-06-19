@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
+using Common;
+using System;
 
 
 namespace GameLogic
@@ -20,7 +22,7 @@ namespace GameLogic
         }
     }
     
-    public class PlayerPresetStorage : MonoBehaviour
+    public class PlayerPresetStorage : GameObserverMonoBehaviour
     {
         [SerializeField] private GameSettings gameSettings;
         private Dictionary<int, PlayerPreset> _storage = new ();
@@ -33,6 +35,19 @@ namespace GameLogic
             {
                 _storage.Add(i, new PlayerPreset(gameSettings.colorIcons[i]));
             }
+        }
+
+        protected void Subscribe()
+        {
+            base.Subscribe();
+            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnPlayerAdded));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnPlayerRemoved));
+        }
+
+        private void Start()
+        {
+            base.Start();
+            updateAllStorage();
         }
 
         public bool IsLock(int presetId)
@@ -49,6 +64,26 @@ namespace GameLogic
         void Free(int presetId)
         {
             _locks.Remove(presetId);
+        }
+
+        private void OnPlayerAdded(string playerName)
+        {
+            updateAllStorage();
+        }
+
+        private void OnPlayerRemoved(string playerName)
+        {
+            updateAllStorage();
+        }
+
+        private void updateAllStorage()
+        {
+            _locks.Clear();
+            var globalContext = gameObject.GetComponent<GlobalContext>();
+            foreach (var playerInfo in globalContext.PData().players)
+            {
+                globalContext.playerPresetStorage.Take(playerInfo.presetId);
+            }
         }
     }
 }

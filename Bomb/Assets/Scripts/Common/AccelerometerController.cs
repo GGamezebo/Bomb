@@ -13,14 +13,14 @@ public class AccelerometerController : MonoBehaviour
 
     void Start()
     {
-        InputSystem.EnableDevice(Accelerometer.current);
+        //InputSystem.EnableDevice(Accelerometer.current);
     }
 
     void Update()
     {
-        _deviceAccel = Accelerometer.current.acceleration.value;
+        //_deviceAccel = Accelerometer.current.acceleration.value;
 
-        SpriteMove(_deviceAccel);
+        //SpriteMove(_deviceAccel);
     }
 
     private void SpriteMove(Vector3 accel)

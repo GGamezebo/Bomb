@@ -30,13 +30,13 @@ namespace UI.Common
         
         protected override void OnPlayerAdded(string playerName)
         {
-            _globalContext.accountData.Save();
+            _globalContext.accountDataComponent.Save();
             _event.Call(Events.EvPlayerAdded, playerName);
         }
         
         protected override void OnPlayerRemoved(string playerName)
         {
-            _globalContext.accountData.Save();
+            _globalContext.accountDataComponent.Save();
             _event.Call(Events.EvPlayerRemoved, playerName);
         }
     }

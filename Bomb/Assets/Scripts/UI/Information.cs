@@ -1,5 +1,6 @@
 using Common;
 using GameLogic;
+using System;
 using UnityEngine.UI;
 
 namespace UI
@@ -7,14 +8,18 @@ namespace UI
     public class Information : GameObserverMonoBehaviour
     {
         TMPro.TextMeshProUGUI textComponent;
-        
+
+        protected override void Subscribe()
+        {
+            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
+        }
         protected override void Start()
         {
             base.Start();
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
-        protected override void OnStateChanged(GameState state)
+        void OnGameStateChanged(GameState state)
         {
             if (state == GameState.Play)
             {

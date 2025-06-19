@@ -30,6 +30,7 @@ namespace Lib.Unity
             {
                 if (destroyDuplicates)
                 {
+                    gameObject.SetActive(false);
                     Destroy(gameObject);
                     return;
                 }

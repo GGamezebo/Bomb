@@ -57,19 +57,21 @@ namespace Sound
         
         [SerializeField]
         private AudioClip playMusicLoop;
-        
-        protected override void Start()
+
+        protected override void Subscribe()
         {
-            base.Start();
+            _eventListener.Add(Events.EvAlert, new Action(OnAlert));
+            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
             _eventListener.Add(Events.EvCountDownTickChanged, new Action<int>(OnCountDownTickChanged));
         }
+
 
         void OnCountDownTickChanged(int count)
         {
             SoundUtils.PlayOneShot(audioSource, countdownTickShot);
         }  
         
-        protected override void OnStateChanged(GameState state)
+        protected void OnGameStateChanged(GameState state)
         {
             switch (state)
             {
@@ -86,7 +88,7 @@ namespace Sound
             }
         }
         
-        protected override void OnAlert()
+        protected void OnAlert()
         {
             SoundUtils.PlayLoop(tickAudioSource, alertTickLoop);
         }
