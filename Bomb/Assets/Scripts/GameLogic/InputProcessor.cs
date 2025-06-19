@@ -64,13 +64,13 @@ namespace GameLogic
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.nextPlayer();
+                    GameComponent.NextPlayer();
                     _event.Call(Events.EvTouchNextPlayer);
                 }
 
                 if (_rightClickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.prevPlayer();
+                    GameComponent.PrevPlayer();
                     _event.Call(Events.EvTouchPrevPlayer);
                 }
             }
@@ -78,7 +78,7 @@ namespace GameLogic
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.startRound();
+                    GameComponent.StartRound();
                     _event.Call(Events.EvTouchStartRound);
                 }
             }
@@ -100,12 +100,12 @@ namespace GameLogic
                     Vector2 currentPosition = _pointAction.ReadValue<Vector2>();
                     if ((_position - currentPosition).magnitude > 650)
                     {
-                        GameComponent.prevPlayer();
+                        GameComponent.PrevPlayer();
                         _event.Call(Events.EvTouchPrevPlayer);
                     }
                     else
                     {
-                        GameComponent.nextPlayer();
+                        GameComponent.NextPlayer();
                         _event.Call(Events.EvTouchNextPlayer);
                     }
                 }
@@ -119,7 +119,7 @@ namespace GameLogic
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.startRound();
+                    GameComponent.StartRound();
                     _event.Call(Events.EvTouchStartRound);
                 }
             }

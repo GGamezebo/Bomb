@@ -36,7 +36,7 @@ namespace UI
         {
             if (state == GameState.Play || state == GameState.Countdown || state == GameState.Explosion || state == GameState.ReadyToStart)
             {
-                textComponent.text = GameComponent.getCurrentPlayer().Name;
+                textComponent.text = GameComponent.GetCurrentPlayer().Name;
             }
             else
             {

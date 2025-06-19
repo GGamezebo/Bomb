@@ -42,12 +42,12 @@ namespace UI
             }
             else if (state == GameState.Explosion)
             {
-                var player = GameComponent.getCurrentPlayer();
+                var player = GameComponent.GetCurrentPlayer();
                 textComponent.text = $"<size=75>Игрок: {player.Name}</size>\n<size=39>Вас подорвало!</size>";
             }
             else if (state == GameState.ReadyToStart)
             {
-                var player = GameComponent.getCurrentPlayer();
+                var player = GameComponent.GetCurrentPlayer();
                 textComponent.text = "Нажми, чтобы начать следующий раунд!";
             }
             else
