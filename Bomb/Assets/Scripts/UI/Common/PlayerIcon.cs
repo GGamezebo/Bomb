@@ -12,7 +12,7 @@ namespace UI
         void Start()
         {
             text.color = Color.black;
-            text.transform.localPosition = new Vector2(0, -image.rectTransform.rect.height / 2 - 5); // = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y + rect.rect.height);
+            text.transform.localPosition = new Vector2(0, -image.rectTransform.rect.height / 2 - 25); // = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y + rect.rect.height);
         }
         
     }

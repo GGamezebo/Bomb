@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Common
 {
-    public static class IListExtensions
+    public static class ListExtensions
     {
         /// <summary>
         /// Shuffles the element order of the specified list.
@@ -14,9 +14,7 @@ namespace Common
             for (var i = 0; i < last; ++i)
             {
                 var r = UnityEngine.Random.Range(i, count);
-                var tmp = ts[i];
-                ts[i] = ts[r];
-                ts[r] = tmp;
+                (ts[i], ts[r]) = (ts[r], ts[i]);
             }
         }
     }
