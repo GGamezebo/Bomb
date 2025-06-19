@@ -2,12 +2,15 @@ using System;
 using Account;
 using Lib;
 using UnityEngine;
-using UnityEngine.Serialization;
+using ScriptableObjects;
 using Event = Lib.Event;
 
 public class GlobalContext : MonoBehaviour
 {
     private EventManager _eventManager;
+    
+    [Tooltip("Static global game settings")]
+    [SerializeField] public GameSettings gameSettings;
     
     [Tooltip("Account persistent data")]
     [SerializeField] public AccountPersistentDataComponent accountDataComponent;

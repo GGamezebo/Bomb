@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPlayers: 12
   devPlayerNames:
-  - "\u0418\u0433\u043E\u0440\u044C"
-  - "\u0413\u0435\u0440\u043C\u0430\u043D"
+  - name: Igor
+    presetId: 0
+  - name: German
+    presetId: 1
   countdownTime: 5
   minBombAliveTime: 10
   maxBombAliveTime: 60
@@ -35,3 +37,24 @@ MonoBehaviour:
   - {fileID: 5565214527167111381, guid: 2c2cd7d01b799904fa35badedb3fa8f4, type: 3}
   - {fileID: 289548755153922282, guid: 7ca134d179f673f4c8e175f2e4361876, type: 3}
   - {fileID: -4281594844805818344, guid: 6fa6657ec57959d4bb296f49c06d4211, type: 3}
+  cards:
+  - "\u043A\u0430\u0440"
+  - co
+  - "\u043C\u0435\u0442\u0440"
+  - "\u0438\u043D\u043A"
+  - "\u0435\u043C"
+  - "\u0430\u043D"
+  - "\u0431\u0440\u0438"
+  - "\u0431\u044B"
+  - "\u0432\u043D\u0438"
+  - "\u0433\u043E\u043D"
+  - "\u0434\u043E"
+  - "\u0434\u043E\u0437"
+  - "\u0436\u0438"
+  - "\u0437\u0438\u043A"
+  - "\u043A\u0430\u0441"
+  - "\u043A\u043E\u0441"
+  - "\u043A\u0440\u0430"
+  - "\u043C\u0435\u0440"
+  - "\u043C\u043E\u043B"
+  - "\u0430\u043D\u0442"

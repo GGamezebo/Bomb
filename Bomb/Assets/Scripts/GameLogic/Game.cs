@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Common;
+using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,6 +19,8 @@ namespace GameLogic
         {
             this._game = game;
         }
+        
+        private GameSettings GameSettings => _game.GameSettings;
 
         public void Init()
         {
@@ -29,7 +32,7 @@ namespace GameLogic
         {
             if (!_isCountdown)
             {
-                if (_duration > Constants.ExplosionCountdownTime)
+                if (_duration > GameSettings.explosionCountdownTime)
                 {
                     _isCountdown = true;
                     _game.OnReadyToStart();
@@ -48,6 +51,8 @@ namespace GameLogic
         {
             this._game = game;
         }
+        
+        private GameSettings GameSettings => _game.GameSettings;
 
         private float _duration = 0;
         private float _aliveTime = 0;
@@ -57,7 +62,7 @@ namespace GameLogic
         public void Init()
         {
             var rand = new Random();
-            _aliveTime = Constants.MinBombAliveTime + (float)(rand.NextDouble() * (Constants.MaxBombAliveTime - Constants.MinBombAliveTime));
+            _aliveTime = GameSettings.minBombAliveTime + (float)(rand.NextDouble() * (GameSettings.maxBombAliveTime - GameSettings.minBombAliveTime));
             Debug.Log("<><><> aliveTime " + _aliveTime.ToString() );
             _duration = 0;
             _isAlerted = false;
@@ -69,7 +74,7 @@ namespace GameLogic
         {
             if (_isAlerted)
             {
-                _aliveTime = _duration + Constants.BonusBombAliveTime;
+                _aliveTime = _duration + GameSettings.bonusBombAliveTime;
             }
         }
 
@@ -81,7 +86,7 @@ namespace GameLogic
                 return;
             }
 
-            if (!_isAlerted && (_aliveTime - _duration) < Constants.AlertBombTime)
+            if (!_isAlerted && (_aliveTime - _duration) < GameSettings.alertBombTime)
             {
                 _game.OnAlert();
                 _isAlerted = true;
@@ -148,7 +153,9 @@ namespace GameLogic
         private bool _isBlockedPrevPlayer = false;
     
         private int _lastSecond = -1;
-    
+
+        public GameSettings GameSettings => _globalContext.gameSettings;
+
 
         private void OnEnable()
         {
@@ -170,7 +177,7 @@ namespace GameLogic
                 Players.Add(new Player(playerInfo.name));
             }
 
-            List<string> cardsStrings = new List<string>(Constants.Cards);
+            List<string> cardsStrings = new List<string>(GameSettings.cards);
             cardsStrings.Shuffle();
 
             Random rand = new Random();
@@ -211,8 +218,8 @@ namespace GameLogic
                 if (result.Count > 1 && result[0].Score == result[1].Score)
                 {
                     var rand = new Random();
-                    var index = rand.Next(Constants.Cards.Length);
-                    _cards.Enqueue(new Card(Constants.Cards[index], Utils.GetWordConditionRandom()));
+                    var index = rand.Next(GameSettings.cards.Length);
+                    _cards.Enqueue(new Card(GameSettings.cards[index], Utils.GetWordConditionRandom()));
                 }
                 else
                 {
@@ -277,7 +284,7 @@ namespace GameLogic
                     if (currentSecond > _lastSecond)
                     {
                         _lastSecond = currentSecond;
-                        var countdownTime =  Mathf.FloorToInt(Constants.CountdownTime);
+                        var countdownTime =  Mathf.FloorToInt(GameSettings.countdownTime);
                         var count = countdownTime - _lastSecond;
                         if (count > 0)
                         {
@@ -285,7 +292,7 @@ namespace GameLogic
                         }
                     }
 
-                    if (gameTime >= Constants.CountdownTime)
+                    if (gameTime >= GameSettings.countdownTime)
                     {
                         _bomb.Init();
                         _explosion.Init();
