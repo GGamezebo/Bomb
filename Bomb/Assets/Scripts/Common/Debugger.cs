@@ -41,7 +41,7 @@ namespace Common
             Debug.Log("<><><> onStateChanged " + state.ToString());
         }
 
-        static void onAlert()
+        void OnAlert()
         {
             Debug.Log("<><><> onAlert");
         }
@@ -55,7 +55,7 @@ namespace Common
         {
             _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnStateChanged));
             _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(OnCurrentPlayerChanged));
-            _eventListener.Add(Events.EvAlert, new Action(onAlert));
+            _eventListener.Add(Events.EvAlert, new Action(OnAlert));
         }
     }
 }
