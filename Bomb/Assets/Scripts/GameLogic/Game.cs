@@ -10,10 +10,12 @@ namespace GameLogic
 {
     public class Game : MonoBehaviour
     {
-        [SerializeField] private GlobalContext globalContext;
+        [SerializeField] 
+        private GlobalContext globalContext;
         public GameSettings GameSettings => globalContext.gameSettings;
+        private Lib.Event _event;
 
-        private List<Player> Players = new List<Player>();
+        private readonly List<Player> _players = new();
         public int currentPlayerIndex = 0;
         public GameState State { get; private set; } = GameState.Inactive;
         public float gameTime = 0;
@@ -21,7 +23,6 @@ namespace GameLogic
         public Card CurrentCard { get; private set; }
         private Bomb _bomb;
         private Explosion _explosion;
-        private Lib.Event _event;
         private bool _isBlockedPrevPlayer = false;
         private int _lastSecond = -1;
 
@@ -42,7 +43,7 @@ namespace GameLogic
             var pdata = globalContext.PData();
             foreach (var playerInfo in pdata.players)
             {
-                Players.Add(new Player(playerInfo));
+                _players.Add(new Player(playerInfo));
             }
 
             List<string> cardsStrings = new List<string>(GameSettings.cards);
@@ -61,7 +62,7 @@ namespace GameLogic
                 _cards.Enqueue(new Card(word, Utils.GetWordConditionRandom()));
             }
 
-            currentPlayerIndex = rand.Next(Players.Count);
+            currentPlayerIndex = rand.Next(_players.Count);
 
             Invoke(nameof(StartGame), 0.01f);
         }
@@ -74,7 +75,7 @@ namespace GameLogic
 
         public Player GetCurrentPlayer()
         {
-            return Players[currentPlayerIndex];
+            return _players[currentPlayerIndex];
         }
 
         private void SetCurrentPlayerIndex(int index)
@@ -109,7 +110,7 @@ namespace GameLogic
         {
             _isBlockedPrevPlayer = false;
 
-            if (currentPlayerIndex == (Players.Count - 1))
+            if (currentPlayerIndex == (_players.Count - 1))
             {
                 SetCurrentPlayerIndex(0);
             }
@@ -128,7 +129,7 @@ namespace GameLogic
 
             if (currentPlayerIndex == 0)
             {
-                SetCurrentPlayerIndex(Players.Count - 1);
+                SetCurrentPlayerIndex(_players.Count - 1);
             }
             else
             {
@@ -141,7 +142,7 @@ namespace GameLogic
 
         public List<Player> GetResult()
         {
-            List<Player> result = new List<Player>(Players);
+            List<Player> result = new List<Player>(_players);
             result.Sort((p1, p2) => p1.Score.CompareTo(p2.Score));
             return result;
         }
