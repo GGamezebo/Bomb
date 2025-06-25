@@ -2,13 +2,13 @@ using System;
 using Common;
 using GameLogic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace UI
+
+namespace UI.HUD
 {
     public class Countdown : GameObserverMonoBehaviour
     {
-        TMPro.TextMeshProUGUI textComponent;
+        [SerializeField] private TMPro.TextMeshProUGUI textComponent;
 
         protected virtual void OnEnable()
         {
@@ -20,12 +20,6 @@ namespace UI
         {
             _eventListener.Add(Events.EvCountDownTickChanged, new Action<int>(OnCountDownTickChanged));
             _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
         void OnCountDownTickChanged(int count)

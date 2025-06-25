@@ -4,7 +4,6 @@ using Common;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
 namespace GameLogic
@@ -137,8 +136,6 @@ namespace GameLogic
 
     public class Game : MonoBehaviour
     {
-        [SerializeField] private AnimatorController _animation;
-
         private GlobalContext _globalContext;
         public List<String> playerNames = new ();
         public List<Player> Players = new List<Player>();
@@ -195,6 +192,11 @@ namespace GameLogic
 
             currentPlayerIndex = rand.Next(Players.Count);
 
+            Invoke(nameof(StartGame), 0.01f);
+        }
+
+        private void StartGame()
+        {
             NextCard();
             StartRound();
         }
@@ -297,7 +299,6 @@ namespace GameLogic
                         _bomb.Init();
                         _explosion.Init();
                         SetState(GameState.Play);
-                        _animation.PlayAnimStep(AnimStates.comes);
                     }
                     break;
                 case GameState.Play:
@@ -329,7 +330,6 @@ namespace GameLogic
         public void OnAlert()
         {
             _event.Call(Events.EvAlert);
-            _animation.PlayAnimStep(AnimStates.alert);
         }    
 
         public void OnReadyToStart()
@@ -338,7 +338,6 @@ namespace GameLogic
             {
                 NextPlayer();
                 SetState(GameState.ReadyToStart);
-                _animation.PlayAnimStep(AnimStates.ready);
             }
         }
 
@@ -347,7 +346,6 @@ namespace GameLogic
             var player = GetCurrentPlayer();
             player.Explosion();
             SetState(GameState.Explosion);
-            _animation.PlayAnimStep(AnimStates.boom);
         }
     }
 }

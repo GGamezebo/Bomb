@@ -1,21 +1,22 @@
+using System;
 using Common;
 using GameLogic;
-using System;
-using UnityEngine.UI;
+using UnityEngine;
 
-namespace UI
+namespace UI.HUD
 {
     public class Information : GameObserverMonoBehaviour
     {
+        [SerializeField] private Game gameComponent;
+        
         TMPro.TextMeshProUGUI textComponent;
 
         protected override void Subscribe()
         {
             _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
         }
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
@@ -23,7 +24,7 @@ namespace UI
         {
             if (state == GameState.Play)
             {
-                var card = GameComponent.CurrentCard;
+                var card = gameComponent.CurrentCard;
                 string place;
                 if (card.Condition == WordCondition.Begin)
                 {
@@ -42,12 +43,12 @@ namespace UI
             }
             else if (state == GameState.Explosion)
             {
-                var player = GameComponent.GetCurrentPlayer();
+                var player = gameComponent.GetCurrentPlayer();
                 textComponent.text = $"<size=75>Игрок: {player.Name}</size>\n<size=39>Вас подорвало!</size>";
             }
             else if (state == GameState.ReadyToStart)
             {
-                var player = GameComponent.GetCurrentPlayer();
+                var player = gameComponent.GetCurrentPlayer();
                 textComponent.text = "Нажми, чтобы начать следующий раунд!";
             }
             else

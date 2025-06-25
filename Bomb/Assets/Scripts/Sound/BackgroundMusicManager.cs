@@ -9,10 +9,8 @@ namespace Sound
         public AudioSource audioSource;
         public AudioClip backgroundMusic;
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-            
             if (audioSource == null)
             {
                 audioSource = GetComponent<AudioSource>();

@@ -11,10 +11,8 @@ namespace Common
         void OnDestroy()
         {
             _eventListener = null;
-            GameComponent = null;
         }
-
-        protected Game GameComponent;
+        
         protected Lib.EventListener _eventListener;
 
         protected virtual void OnEnable()
@@ -27,12 +25,6 @@ namespace Common
         protected virtual void OnDisable()
         {
             _eventListener.RemoveAllListeners();
-        }
-
-        protected virtual void Start()
-        {
-            var game = GameObject.Find("Game");
-            GameComponent = game.GetComponent<Game>();
         }
 
         protected virtual void Subscribe()

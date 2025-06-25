@@ -1,12 +1,13 @@
+using System;
 using Common;
 using GameLogic;
-using System;
-using UnityEngine.UI;
+using UnityEngine;
 
-namespace UI
+namespace UI.HUD
 {
     public class PlayerName : GameObserverMonoBehaviour
     {
+        [SerializeField] private Game gameComponent;
         TMPro.TextMeshProUGUI textComponent;
 
         protected override void Subscribe()
@@ -16,15 +17,14 @@ namespace UI
         }
 
         // Start is called before the first frame update
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
         private void OnCurrentPlayerChanged()
         {
-            UpdateState(GameComponent.State);
+            UpdateState(gameComponent.State);
         }
 
         private void OnGameStateChanged(GameState state)
@@ -36,7 +36,7 @@ namespace UI
         {
             if (state == GameState.Play || state == GameState.Countdown || state == GameState.Explosion || state == GameState.ReadyToStart)
             {
-                textComponent.text = GameComponent.GetCurrentPlayer().Name;
+                textComponent.text = gameComponent.GetCurrentPlayer().Name;
             }
             else
             {

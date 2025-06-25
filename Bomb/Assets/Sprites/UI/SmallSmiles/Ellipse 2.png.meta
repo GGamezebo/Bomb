@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8c07158ee912d274684bc2c36e6aec21
+guid: be9fccd41b0301a4583c0c254431fc03
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3290573182547071134
-    second: Ellipse 7_0
+      213: -6036146622879419313
+    second: Ellipse 2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,11 +135,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ellipse 7_0
+      name: Ellipse 2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -154,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26feadaef198552d0800000000000000
-      internalID: -3290573182547071134
+      spriteID: f44391b90ac4b3ca0800000000000000
+      internalID: -6036146622879419313
       vertices: []
       indices: 
       edges: []
@@ -174,7 +200,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ellipse 7_0: -3290573182547071134
+      Ellipse 2_0: -6036146622879419313
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8b77a30e9993e0847aef271d94361a62
+guid: 2049476caf2b4ba4fb4c6b9cefee6e2b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6138612802710836934
-    second: Ellipse 5_0
+      213: -6874308299371283492
+    second: Rectangle 9_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,17 +135,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ellipse 5_0
+      name: Rectangle 9_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
+        width: 321
+        height: 273
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a3961c00e244fcaa0800000000000000
-      internalID: -6138612802710836934
+      spriteID: cdb747bf50d8990a0800000000000000
+      internalID: -6874308299371283492
       vertices: []
       indices: 
       edges: []
@@ -174,7 +200,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ellipse 5_0: -6138612802710836934
+      Rectangle 9_0: -6874308299371283492
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

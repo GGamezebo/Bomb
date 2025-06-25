@@ -9,23 +9,23 @@ namespace GameLogic
 {
     public class PlayerPreset
     {
-        private readonly Sprite ColorTag;
+        private readonly Sprite _colorTag;
         
         public PlayerPreset(Sprite colorTag)
         {
-            ColorTag = colorTag;
+            _colorTag = colorTag;
         }
 
         public override string ToString()
         {
-            return $"PlayerPreset {{ ColorTag = {ColorTag}}}";
+            return $"PlayerPreset {{ ColorTag = {_colorTag}}}";
         }
     }
     
     public class PlayerPresetStorage : GameObserverMonoBehaviour
     {
         [SerializeField] private GameSettings gameSettings;
-        private Dictionary<int, PlayerPreset> _storage = new ();
+        private readonly Dictionary<int, PlayerPreset> _storage = new ();
         private readonly HashSet<int> _locks = new ();
         
         
@@ -37,7 +37,7 @@ namespace GameLogic
             }
         }
 
-        protected void Subscribe()
+        protected override void Subscribe()
         {
             base.Subscribe();
             _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnPlayerAdded));
@@ -46,15 +46,14 @@ namespace GameLogic
 
         private void Start()
         {
-            base.Start();
-            updateAllStorage();
+            UpdateAllStorage();
         }
 
         public bool IsLock(int presetId)
         {
             return _locks.Contains(presetId);
         }
-
+        
         PlayerPreset Take(int presetId)
         {
             _locks.Add(presetId);
@@ -68,15 +67,15 @@ namespace GameLogic
 
         private void OnPlayerAdded(string playerName)
         {
-            updateAllStorage();
+            UpdateAllStorage();
         }
 
         private void OnPlayerRemoved(string playerName)
         {
-            updateAllStorage();
+            UpdateAllStorage();
         }
 
-        private void updateAllStorage()
+        private void UpdateAllStorage()
         {
             _locks.Clear();
             var globalContext = gameObject.GetComponent<GlobalContext>();

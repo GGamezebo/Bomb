@@ -15,13 +15,12 @@ public class GlobalContext : MonoBehaviour
     [Tooltip("Account persistent data")]
     [SerializeField] public AccountPersistentDataComponent accountDataComponent;
 
-    public GameLogic.PlayerPresetStorage playerPresetStorage;
+    [Tooltip("Player storage")]
+    [SerializeField] public GameLogic.PlayerPresetStorage playerPresetStorage;
     
     void Awake()
     {
         _eventManager = new EventManager();
-        accountDataComponent = GetComponent<AccountPersistentDataComponent>();
-        playerPresetStorage = GetComponent<GameLogic.PlayerPresetStorage>();
     }
 
     public EventListener MakeEventListener()

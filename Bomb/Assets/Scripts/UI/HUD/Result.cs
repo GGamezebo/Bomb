@@ -1,12 +1,13 @@
+using System;
 using Common;
 using GameLogic;
-using System;
-using UnityEngine.UI;
+using UnityEngine;
 
-namespace UI
+namespace UI.HUD
 {
     public class Result : GameObserverMonoBehaviour
     {
+        [SerializeField] private Game gameComponent;
         TMPro.TextMeshProUGUI textComponent;
 
 
@@ -16,9 +17,8 @@ namespace UI
         }
 
         // Start is called before the first frame update
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             textComponent = GetComponent<TMPro.TextMeshProUGUI>();
         }
 
@@ -26,7 +26,7 @@ namespace UI
         {
             if (state == GameState.Result)
             {
-                var result = GameComponent.GetResult();
+                var result = gameComponent.GetResult();
                 string text = $"Победил {result[0].Name}!\n\n";
                 foreach(Player player in result)
                 {

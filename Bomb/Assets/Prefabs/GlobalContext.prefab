@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5800843065103401406}
   - component: {fileID: 6174734156626285817}
+  - component: {fileID: 4403638886690963467}
   - component: {fileID: 4691566126108489764}
   - component: {fileID: 4548500840489457644}
   - component: {fileID: 8839720620830015949}
@@ -48,7 +49,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da7675b647aed5478d97443b26fe644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accountData: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
+  accountDataComponent: {fileID: 8839720620830015949}
+  playerPresetStorage: {fileID: 4403638886690963467}
+--- !u!114 &4403638886690963467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5120844437825022175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198594410e44ec5930f86c11c6c1361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
 --- !u!82 &4691566126108489764
 AudioSource:
   m_ObjectHideFlags: 0
@@ -174,8 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveFileName: persistentObjects.json
   data:
-    playerNames: []
-  gameSettings: {fileID: 11400000, guid: cf63d8f07f79f594484165d6b8113d43, type: 2}
+    players: []
+  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
 --- !u!114 &8325608258722586316
 MonoBehaviour:
   m_ObjectHideFlags: 0

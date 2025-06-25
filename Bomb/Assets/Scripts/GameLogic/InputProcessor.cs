@@ -7,6 +7,8 @@ namespace GameLogic
 {
     public class InputProcessor : GameObserverMonoBehaviour
     {
+        [SerializeField] private Game gameComponent;
+        
         private GameInput _gameInput;
         private InputAction _pointAction;
         private InputAction _clickAction;
@@ -32,10 +34,8 @@ namespace GameLogic
             base.OnDisable();
         }
 
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
-            
             _clickAction = _gameInput.UI.Click;
             _rightClickAction = _gameInput.UI.RightClick;
             _pointAction = _gameInput.UI.Point;
@@ -60,29 +60,29 @@ namespace GameLogic
 
         private void ProcessMouseInput()
         {
-            if (GameComponent.State == GameState.Play)
+            if (gameComponent.State == GameState.Play)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.NextPlayer();
+                    gameComponent.NextPlayer();
                     _event.Call(Events.EvTouchNextPlayer);
                 }
 
                 if (_rightClickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.PrevPlayer();
+                    gameComponent.PrevPlayer();
                     _event.Call(Events.EvTouchPrevPlayer);
                 }
             }
-            else if (GameComponent.State == GameState.ReadyToStart)
+            else if (gameComponent.State == GameState.ReadyToStart)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.StartRound();
+                    gameComponent.StartRound();
                     _event.Call(Events.EvTouchStartRound);
                 }
             }
-            else if (GameComponent.State == GameState.Result)
+            else if (gameComponent.State == GameState.Result)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
@@ -93,19 +93,19 @@ namespace GameLogic
 
         private void ProcessTouchInput()
         {
-            if (GameComponent.State == GameState.Play)
+            if (gameComponent.State == GameState.Play)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
                     Vector2 currentPosition = _pointAction.ReadValue<Vector2>();
                     if ((_position - currentPosition).magnitude > 650)
                     {
-                        GameComponent.PrevPlayer();
+                        gameComponent.PrevPlayer();
                         _event.Call(Events.EvTouchPrevPlayer);
                     }
                     else
                     {
-                        GameComponent.NextPlayer();
+                        gameComponent.NextPlayer();
                         _event.Call(Events.EvTouchNextPlayer);
                     }
                 }
@@ -115,15 +115,15 @@ namespace GameLogic
                     _position = _pointAction.ReadValue<Vector2>();
                 }
             }
-            else if (GameComponent.State == GameState.ReadyToStart)
+            else if (gameComponent.State == GameState.ReadyToStart)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    GameComponent.StartRound();
+                    gameComponent.StartRound();
                     _event.Call(Events.EvTouchStartRound);
                 }
             }
-            else if (GameComponent.State == GameState.Result)
+            else if (gameComponent.State == GameState.Result)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {

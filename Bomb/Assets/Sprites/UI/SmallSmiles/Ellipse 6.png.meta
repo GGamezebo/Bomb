@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 95bfd68c3cfccd242918fa57caec0454
+guid: 18e16ee44bed6164481f2dff4664b7e8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -995779289211046693
-    second: return_0
-  - first:
-      213: -6071297163259795220
-    second: return_1
+      213: -4530555400904516697
+    second: Ellipse 6_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -168,13 +165,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: return_0
+      name: Ellipse 6_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 145
-        width: 409
-        height: 288
+        y: 0
+        width: 49
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,30 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bd472e723084e22f0800000000000000
-      internalID: -995779289211046693
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: return_1
-      rect:
-        serializedVersion: 2
-        x: 348
-        y: 79
-        width: 164
-        height: 261
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ce8201aa56b6ebba0800000000000000
-      internalID: -6071297163259795220
+      spriteID: 7abdbd5eddb3021c0800000000000000
+      internalID: -4530555400904516697
       vertices: []
       indices: 
       edges: []
@@ -225,8 +200,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      return_0: -995779289211046693
-      return_1: -6071297163259795220
+      Ellipse 6_0: -4530555400904516697
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
