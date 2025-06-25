@@ -1,177 +1,48 @@
 using System;
 using System.Collections.Generic;
+using Account;
 using Common;
 using ScriptableObjects;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = System.Random;
 
 namespace GameLogic
 {
-    public class Explosion
-    {
-        private readonly Game _game;
-        private float _duration = 0;
-        private bool _isCountdown = false;
-
-        public Explosion(Game game)
-        {
-            this._game = game;
-        }
-        
-        private GameSettings GameSettings => _game.GameSettings;
-
-        public void Init()
-        {
-            _duration = 0;
-            _isCountdown = false;
-        }
-
-        public void Update(float dt)
-        {
-            if (!_isCountdown)
-            {
-                if (_duration > GameSettings.explosionCountdownTime)
-                {
-                    _isCountdown = true;
-                    _game.OnReadyToStart();
-                }
-
-                _duration += dt;
-            }
-        }
-    }
-
-
-    public class Bomb
-    {
-        private readonly Game _game;
-        public Bomb(Game game)
-        {
-            this._game = game;
-        }
-        
-        private GameSettings GameSettings => _game.GameSettings;
-
-        private float _duration = 0;
-        private float _aliveTime = 0;
-        private bool _isAlerted = false;
-        private bool _isExploded = false;
-
-        public void Init()
-        {
-            var rand = new Random();
-            _aliveTime = GameSettings.minBombAliveTime + (float)(rand.NextDouble() * (GameSettings.maxBombAliveTime - GameSettings.minBombAliveTime));
-            Debug.Log("<><><> aliveTime " + _aliveTime.ToString() );
-            _duration = 0;
-            _isAlerted = false;
-            _isExploded = false;
-        }
-
-
-        public void TryAddBonusTime()
-        {
-            if (_isAlerted)
-            {
-                _aliveTime = _duration + GameSettings.bonusBombAliveTime;
-            }
-        }
-
-        public void Update(float dt)
-        {
-            if (_isExploded)
-            {
-                Debug.Log("ERROR isExploded!");
-                return;
-            }
-
-            if (!_isAlerted && (_aliveTime - _duration) < GameSettings.alertBombTime)
-            {
-                _game.OnAlert();
-                _isAlerted = true;
-            }
-
-            if ((_aliveTime - _duration) <= 0)
-            {
-                _game.OnExplosion();
-                _isExploded = true;
-                return;
-            }
-
-            _duration += dt;
-        }
-    }
-
-
-    public class Player
-    {
-        public String Name { get; private set; }
-        public int Score { get; private set; }
-    
-        public Player(String name)
-        {
-            Name = name;
-            Score = 0;
-        }
-        public void Explosion()
-        {
-            Score += 1;
-        }
-
-    }
-
-
-    public struct Card
-    {
-        public string Word { get; private set; }
-        public WordCondition Condition { get; private set; }
-
-        public Card(string word, WordCondition condition)
-        {
-            Word = word;
-            Condition = condition;
-        }
-    }
-
-
     public class Game : MonoBehaviour
     {
-        private GlobalContext _globalContext;
-        public List<String> playerNames = new ();
-        public List<Player> Players = new List<Player>();
+        [SerializeField] private GlobalContext globalContext;
+        public GameSettings GameSettings => globalContext.gameSettings;
+
+        private List<Player> Players = new List<Player>();
         public int currentPlayerIndex = 0;
         public GameState State { get; private set; } = GameState.Inactive;
         public float gameTime = 0;
-        private Queue<Card> _cards = new Queue<Card>();
+        private readonly Queue<Card> _cards = new Queue<Card>();
         public Card CurrentCard { get; private set; }
         private Bomb _bomb;
         private Explosion _explosion;
         private Lib.Event _event;
         private bool _isBlockedPrevPlayer = false;
-    
         private int _lastSecond = -1;
-
-        public GameSettings GameSettings => _globalContext.gameSettings;
-
 
         private void OnEnable()
         {
-            _globalContext = FindFirstObjectByType<GlobalContext>();
-            _event = _globalContext.MakeEvent();
+            globalContext = FindFirstObjectByType<GlobalContext>();
+            _event = globalContext.MakeEvent();
+
+#if UNITY_EDITOR
+            GetComponent<Debugger>().enabled = true;
+#endif
         }
 
         void Start()
         {
-            this.AddComponent<Debugger>();
-            Debug.Log("<><><> Game.Start");
-        
             _bomb = new Bomb(this);
             _explosion = new Explosion(this);
-            // UserPreferenceData userPreferenceData = UserPreference.Load();
-            var pdata = _globalContext.PData();
+            var pdata = globalContext.PData();
             foreach (var playerInfo in pdata.players)
             {
-                Players.Add(new Player(playerInfo.name));
+                Players.Add(new Player(playerInfo));
             }
 
             List<string> cardsStrings = new List<string>(GameSettings.cards);
@@ -229,6 +100,7 @@ namespace GameLogic
                     return false;
                 }
             }
+
             CurrentCard = _cards.Dequeue();
             return true;
         }
@@ -286,7 +158,7 @@ namespace GameLogic
                     if (currentSecond > _lastSecond)
                     {
                         _lastSecond = currentSecond;
-                        var countdownTime =  Mathf.FloorToInt(GameSettings.countdownTime);
+                        var countdownTime = Mathf.FloorToInt(GameSettings.countdownTime);
                         var count = countdownTime - _lastSecond;
                         if (count > 0)
                         {
@@ -300,6 +172,7 @@ namespace GameLogic
                         _explosion.Init();
                         SetState(GameState.Play);
                     }
+
                     break;
                 case GameState.Play:
                     _bomb.Update(Time.deltaTime);
@@ -310,6 +183,7 @@ namespace GameLogic
                 case GameState.Result:
                     break;
             }
+
             gameTime += Time.deltaTime;
         }
 
@@ -323,14 +197,15 @@ namespace GameLogic
         {
             gameTime = 0;
             _lastSecond = -1;
-            _isBlockedPrevPlayer = true; ;
+            _isBlockedPrevPlayer = true;
+            ;
             SetState(GameState.Countdown);
-        } 
-    
+        }
+
         public void OnAlert()
         {
             _event.Call(Events.EvAlert);
-        }    
+        }
 
         public void OnReadyToStart()
         {
@@ -346,6 +221,137 @@ namespace GameLogic
             var player = GetCurrentPlayer();
             player.Explosion();
             SetState(GameState.Explosion);
+        }
+    }
+
+
+    public class Explosion
+    {
+        private readonly Game _game;
+        private float _duration = 0;
+        private bool _isCountdown = false;
+
+        public Explosion(Game game)
+        {
+            this._game = game;
+        }
+
+        private GameSettings GameSettings => _game.GameSettings;
+
+        public void Init()
+        {
+            _duration = 0;
+            _isCountdown = false;
+        }
+
+        public void Update(float dt)
+        {
+            if (!_isCountdown)
+            {
+                if (_duration > GameSettings.explosionCountdownTime)
+                {
+                    _isCountdown = true;
+                    _game.OnReadyToStart();
+                }
+
+                _duration += dt;
+            }
+        }
+    }
+
+
+    public class Bomb
+    {
+        private readonly Game _game;
+
+        public Bomb(Game game)
+        {
+            this._game = game;
+        }
+
+        private GameSettings GameSettings => _game.GameSettings;
+
+        private float _duration = 0;
+        private float _aliveTime = 0;
+        private bool _isAlerted = false;
+        private bool _isExploded = false;
+
+        public void Init()
+        {
+            var rand = new Random();
+            _aliveTime = GameSettings.minBombAliveTime +
+                         (float)(rand.NextDouble() * (GameSettings.maxBombAliveTime - GameSettings.minBombAliveTime));
+            Debug.Log("<><><> aliveTime " + _aliveTime.ToString());
+            _duration = 0;
+            _isAlerted = false;
+            _isExploded = false;
+        }
+
+
+        public void TryAddBonusTime()
+        {
+            if (_isAlerted)
+            {
+                _aliveTime = _duration + GameSettings.bonusBombAliveTime;
+            }
+        }
+
+        public void Update(float dt)
+        {
+            if (_isExploded)
+            {
+                Debug.Log("ERROR isExploded!");
+                return;
+            }
+
+            if (!_isAlerted && (_aliveTime - _duration) < GameSettings.alertBombTime)
+            {
+                _game.OnAlert();
+                _isAlerted = true;
+            }
+
+            if ((_aliveTime - _duration) <= 0)
+            {
+                _game.OnExplosion();
+                _isExploded = true;
+                return;
+            }
+
+            _duration += dt;
+        }
+    }
+
+
+    public class Player
+    {
+        public String Name => _playerInfo.name;
+        public int PresetId => _playerInfo.presetId;
+        public int Score { get; private set; }
+
+        private readonly PlayerInfo _playerInfo;
+
+        public Player(PlayerInfo playerInfo)
+        {
+            _playerInfo = playerInfo;
+            Score = 0;
+        }
+
+        public void Explosion()
+        {
+            Score += 1;
+        }
+    }
+
+
+    public struct Card
+    {
+        public string Word { get; private set; }
+        public WordCondition Condition { get; private set; }
+
+        public Card(string word, WordCondition condition)
+        {
+            Word = word;
+            Condition = condition;
         }
     }
 }

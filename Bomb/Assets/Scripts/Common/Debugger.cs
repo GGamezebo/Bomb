@@ -41,12 +41,12 @@ namespace Common
             Debug.Log("<><><> onStateChanged " + state.ToString());
         }
 
-        void onAlert()
+        static void onAlert()
         {
             Debug.Log("<><><> onAlert");
         }
 
-        void onCurrentPlayerChanged()
+        void OnCurrentPlayerChanged()
         {
             Debug.Log("<><><> onCurrentPlayerChanged " + _gameComponent.currentPlayerIndex);
         }
@@ -54,7 +54,7 @@ namespace Common
         void Subscribe()
         {
             _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnStateChanged));
-            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(onCurrentPlayerChanged));
+            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(OnCurrentPlayerChanged));
             _eventListener.Add(Events.EvAlert, new Action(onAlert));
         }
     }

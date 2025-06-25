@@ -307,6 +307,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 504c61e0ee9671840a1295d4c4b99cbc, type: 3}
+--- !u!114 &301042393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6174734156626285817, guid: 504c61e0ee9671840a1295d4c4b99cbc, type: 3}
+  m_PrefabInstance: {fileID: 301042392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da7675b647aed5478d97443b26fe644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &332130371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1287,6 +1298,7 @@ GameObject:
   - component: {fileID: 1743030067}
   - component: {fileID: 1743030069}
   - component: {fileID: 1743030070}
+  - component: {fileID: 1743030073}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -1321,9 +1333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3ea15e49eb6d743ae0c8d18f4d2c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNames:
-  - "\u0413\u0435\u0440\u043C\u0430\u043D"
-  - "\u0418\u0433\u043E\u0440\u044C"
+  globalContext: {fileID: 301042393}
   currentPlayerIndex: 0
   gameTime: 0
 --- !u!114 &1743030066
@@ -1681,6 +1691,18 @@ MonoBehaviour:
   _updateLightSpeed: 20
   _sprite: {fileID: 273206446}
   _light: {fileID: 1432112355}
+--- !u!114 &1743030073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743030063}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0926e3436e8ff3c42980e5398017e58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1814691109
 GameObject:
   m_ObjectHideFlags: 0
