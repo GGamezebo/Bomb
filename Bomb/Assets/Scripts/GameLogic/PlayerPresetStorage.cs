@@ -3,6 +3,7 @@ using UnityEngine;
 using ScriptableObjects;
 using Common;
 using System;
+using Account;
 
 
 namespace GameLogic
@@ -40,8 +41,8 @@ namespace GameLogic
         protected override void Subscribe()
         {
             base.Subscribe();
-            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnPlayerAdded));
-            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnPlayerRemoved));
+            _eventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnPlayerRemoved));
         }
 
         private void Start()
@@ -65,12 +66,12 @@ namespace GameLogic
             _locks.Remove(presetId);
         }
 
-        private void OnPlayerAdded(string playerName)
+        private void OnPlayerAdded(PlayerInfo playerName)
         {
             UpdateAllStorage();
         }
 
-        private void OnPlayerRemoved(string playerName)
+        private void OnPlayerRemoved(PlayerInfo playerName)
         {
             UpdateAllStorage();
         }

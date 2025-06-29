@@ -1,6 +1,7 @@
 #if UNITY_ANDROID 
 #endif
 using System;
+using Account;
 using Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,8 +20,8 @@ namespace UI.MainMenu
         {
             _globalContext = FindFirstObjectByType<GlobalContext>();
             _eventListener = _globalContext.MakeEventListener();
-            _eventListener.Add(Events.EvPlayerAdded, new Action<string>(OnAddPlayer));
-            _eventListener.Add(Events.EvPlayerRemoved, new Action<string>(OnRemovePlayer));
+            _eventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnAddPlayer));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnRemovePlayer));
         }
         
         private void OnDisable()
@@ -44,12 +45,12 @@ namespace UI.MainMenu
             button.onClick.AddListener(OnStartGame);
         }
 
-        private void OnAddPlayer(string playerName)
+        private void OnAddPlayer(PlayerInfo playerName)
         {
             UpdateState();
         }
 
-        private void OnRemovePlayer(string playerName)
+        private void OnRemovePlayer(PlayerInfo playerName)
         {
             UpdateState();
         }
