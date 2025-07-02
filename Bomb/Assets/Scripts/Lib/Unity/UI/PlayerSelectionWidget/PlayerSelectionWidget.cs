@@ -8,43 +8,31 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
     public class PlayerSelectionWidget : MonoBehaviour
     {
         [SerializeField] public GameObject addPlayerButton;
-
-        public GameObject modalPanel; // Панель модального окна
-        public TMP_InputField playerNameInputField; // Поле ввода имени игрока (TextMeshPro)
-        public GameObject playerIconPrefab; // Префаб иконки игрока (TextMeshPro - TMP_Text)
+        [SerializeField] public GameObject modalPanel;
+        [SerializeField] public TMP_InputField playerNameInputField;
+        [SerializeField] public GameObject playerIconPrefab;
+        
         public float iconScale = 1.0f; // Масштаб иконок
-
         public List<GameObject> playerIcons = new List<GameObject>(); // Список иконок игроков
         protected List<string> PlayerNames = new List<string>(); // Список имен игроков
         protected List<Color> PlayerColors = new();
-
+        
         protected virtual void OnEnable()
         {
-            addPlayerButton.GetComponent<Button>().onClick.AddListener(OpenModelWindow);
+            
         }
 
         protected virtual void OnDisable()
         {
-            addPlayerButton.GetComponent<Button>().onClick.RemoveListener(OpenModelWindow);
+            
         }
 
-        protected virtual void OnPlayerAdded(string playerName)
+        protected virtual void OnPlayerAdded(string playerName, int presetId)
         {
         }
 
         protected virtual void OnPlayerRemoved(int playerIndex)
         {
-        }
-
-        void OpenModal()
-        {
-            //modalPanel.SetActive(true);
-            playerNameInputField.text = ""; // Очищаем поле ввода
-        }
-
-        void CloseModal()
-        {
-            //modalPanel.SetActive(false);
         }
 
         void OpenModelWindow()
@@ -61,35 +49,18 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             GameObject AddPlayerButton = modalPanel.transform.Find("AddPlayerButton").gameObject;
             GameObject CloseButton = modalPanel.transform.Find("CloseButton").gameObject;
 
-            AddPlayerButton.GetComponent<Button>().onClick.AddListener(OnAddPlayer);
+            //AddPlayerButton.GetComponent<Button>().onClick.AddListener(OnAddPlayer);
             CloseButton.GetComponent<Button>().onClick.AddListener(OnClose);
         }
 
-        void OnAddPlayer()
+        public void AddPlayer(string playerName, int presetId)
         {
-            TMPro.TMP_InputField InputPlayer = modalPanel.transform.Find("InputPlayer").gameObject
-                .GetComponent<TMPro.TMP_InputField>();
-            string playerName = InputPlayer.text.Trim();
-
-            if (string.IsNullOrEmpty(playerName))
-            {
-                Debug.LogWarning("Имя игрока не может быть пустым.");
-                return;
-            }
-
-            if (PlayerNames.Contains(playerName))
-            {
-                Debug.LogWarning("Игрок с таким именем уже существует.");
-                return;
-            }
-
             PlayerNames.Add(playerName);
             CreatePlayerIcon(playerName);
-
-            InputPlayer.text = "";
+            
             UpdatePlayerPositions();
 
-            OnPlayerAdded(playerName);
+            OnPlayerAdded(playerName, presetId);
 
 
             // CanvasGroup canvasGroup = modalPanel.GetComponent<CanvasGroup>();

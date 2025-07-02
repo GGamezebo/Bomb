@@ -1,6 +1,6 @@
-using Common;
 using System.Linq;
 using Account;
+using Common;
 
 namespace UI.Common
 {
@@ -34,9 +34,9 @@ namespace UI.Common
             UpdatePlayerPositions();
         }
         
-        protected override void OnPlayerAdded(string playerName)
+        protected override void OnPlayerAdded(string playerName, int presetId)
         {
-            var playerInfo = new PlayerInfo(playerName, 0);
+            var playerInfo = new PlayerInfo(playerName, presetId);
             _globalContext.PData().players.Add(playerInfo);
             _globalContext.accountDataComponent.Save();
             _event.Call(Events.EvPlayerAdded, playerInfo);

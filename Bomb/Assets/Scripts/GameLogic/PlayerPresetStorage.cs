@@ -50,7 +50,7 @@ namespace GameLogic
             UpdateAllStorage();
         }
 
-        public bool IsLock(int presetId)
+        public bool isHold(int presetId)
         {
             return _locks.Contains(presetId);
         }
