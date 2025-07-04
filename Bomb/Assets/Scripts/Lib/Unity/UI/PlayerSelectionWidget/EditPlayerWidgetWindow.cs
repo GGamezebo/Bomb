@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.HID;
 using UnityEngine.UI;
 
 namespace Lib.Unity.UI.PlayerSelectionWidget
@@ -18,7 +16,8 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         
         private PlayerSelectionWidget _playerSelectionWidget;
         protected GameObject SelectedColorItem;
-        
+
+        protected virtual string PlayerImageBasePath => "";
 
 
         protected virtual void Awake()
@@ -28,12 +27,13 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         
         protected virtual void OnEnable()
         {
-            playerName.onValueChanged.AddListener(OnTextChanged);
+            playerName.text = "";
+            playerName.ActivateInputField();
         }
 
         protected virtual void OnDisable()
         {
-            playerName.onValueChanged.RemoveListener(OnTextChanged);
+            
         }
         
         public void OnColorClicked(BaseEventData eventData)
@@ -74,7 +74,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         
         public void OnTextChanged(string text)
         {
-            ok.interactable = playerName.text.Length > 0;
+            UpdateOkButton();
         }
 
         protected void SelectColorItem(GameObject colorItem)
@@ -88,6 +88,14 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             SelectedColorItem = colorItem;
             var selected = SelectedColorItem.transform.Find("Selected").gameObject;
             selected.SetActive(true);
+            
+            var presetId = colors.IndexOf(SelectedColorItem);
+            playerImage.sprite = Resources.Load<Sprite>(PlayerImageBasePath + $"/{presetId}");
+        }
+
+        protected void UpdateOkButton()
+        {
+            ok.interactable = playerName.text.Length > 0;
         }
     }
 }

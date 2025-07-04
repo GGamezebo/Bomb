@@ -13,6 +13,8 @@ namespace Common
     {
         [SerializeField] public GameObject globalContext;
 
+        protected override string PlayerImageBasePath => "Slimes";
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -36,6 +38,8 @@ namespace Common
                     colorItem.AddComponent<Button>();
                 }
             }
+
+            UpdateOkButton();
         }
     }
 }
