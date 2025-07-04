@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.HID;
+using System.Linq;
 using UnityEngine.UI;
 
 namespace Common
@@ -40,6 +41,34 @@ namespace Common
             }
 
             UpdateOkButton();
+            SortPlayerPresets();
+        }
+        
+        private void SortPlayerPresets()
+        {
+            List<GameObject> sortedList = new List<GameObject>();
+            var playerPresetStorage = globalContext.GetComponent<GlobalContext>().playerPresetStorage;
+
+            for (int i = 0; i < colors.Count; i++)
+            {
+                if (!playerPresetStorage.isHold(i))
+                {
+                    sortedList.Add(colors[i]);
+                }
+            }
+            
+            for (int i = 0; i < colors.Count; i++)
+            {
+                if (playerPresetStorage.isHold(i))
+                {
+                    sortedList.Add(colors[i]);
+                }
+            }
+            
+            for (int i = 0; i < sortedList.Count; i++)
+            {
+                sortedList[i].transform.SetSiblingIndex(i);
+            }
         }
     }
 }

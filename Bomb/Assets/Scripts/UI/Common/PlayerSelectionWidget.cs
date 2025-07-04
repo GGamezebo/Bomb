@@ -1,6 +1,7 @@
 using System.Linq;
 using Account;
 using Common;
+using UnityEngine.UI;
 
 namespace UI.Common
 {
@@ -32,6 +33,7 @@ namespace UI.Common
                 CreatePlayerIcon(playerName);
             }
             UpdatePlayerPositions();
+            UpdateAddPlayerButton();
         }
         
         protected override void OnPlayerAdded(string playerName, int presetId)
@@ -39,6 +41,7 @@ namespace UI.Common
             var playerInfo = new PlayerInfo(playerName, presetId);
             _globalContext.PData().players.Add(playerInfo);
             _globalContext.accountDataComponent.Save();
+            UpdateAddPlayerButton();
             _event.Call(Events.EvPlayerAdded, playerInfo);
         }
         
@@ -47,7 +50,18 @@ namespace UI.Common
             var playerInfo = _globalContext.PData().players[playerIndex]; 
             _globalContext.PData().players.RemoveAt(playerIndex);
             _globalContext.accountDataComponent.Save();
+            UpdateAddPlayerButton();
             _event.Call(Events.EvPlayerRemoved, playerInfo);
+        }
+
+        private bool IsFullPlayers()
+        {
+            return _globalContext.PData().players.Count < _globalContext.gameSettings.maxPlayers;
+        }
+
+        private void UpdateAddPlayerButton()
+        {
+            addPlayerButton.GetComponent<Button>().interactable = IsFullPlayers();
         }
     }
 }
