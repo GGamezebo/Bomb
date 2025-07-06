@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4216486212050495167}
   - component: {fileID: 7604611251447536364}
   m_Layer: 5
-  m_Name: smile
+  m_Name: Smile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

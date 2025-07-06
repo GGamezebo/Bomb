@@ -27,10 +27,9 @@ namespace UI.Common
         
         private void Start()
         {
-            PlayerNames = _globalContext.PData().players.Select(player => player.name).ToList();
-            foreach (var playerName in PlayerNames)
+            foreach (var playerInfo in _globalContext.PData().players)
             {
-                CreatePlayerIcon(playerName);
+                CreatePlayerIcon(playerInfo.name, playerInfo.presetId);
             }
             UpdatePlayerPositions();
             UpdateAddPlayerButton();

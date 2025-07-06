@@ -14,7 +14,6 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         [SerializeField] protected GameObject playerSelection;
         [SerializeField] protected List<GameObject> colors;
         
-        private PlayerSelectionWidget _playerSelectionWidget;
         protected GameObject SelectedColorItem;
 
         protected virtual string PlayerImageBasePath => "";
@@ -22,7 +21,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         protected virtual void Awake()
         {
-            _playerSelectionWidget = playerSelection.GetComponent<PlayerSelectionWidget>();
+            
         }
         
         protected virtual void OnEnable()

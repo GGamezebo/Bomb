@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.HID;
-using System.Linq;
 using UnityEngine.UI;
 
 namespace Common
