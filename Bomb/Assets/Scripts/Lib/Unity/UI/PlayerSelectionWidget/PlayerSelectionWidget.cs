@@ -40,16 +40,25 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         protected void UpdatePlayerPositions()
         {
-            // Расположение иконок по кругу
+         
             float angleStep = 360f / playerIcons.Count;
+            var table = gameObject.transform.Find("Table").gameObject;
             for (int i = 0; i < playerIcons.Count; i++)
             {
                 float angle = i * angleStep * Mathf.Deg2Rad;
-                var rect = gameObject.GetComponent<RectTransform>().rect;
-                float coeff = 0.35f;
+                var rect = table.GetComponent<RectTransform>().rect;
+                float coeff = 0.5f;
                 Vector3 pos = new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
                 playerIcons[i].transform.localPosition = pos;
             }
+
+            // var places = gameObject.transform.Find("Table/Places").gameObject;
+            // var scheme = places.transform.Find($"{playerIcons.Count}").gameObject;
+            // for (int i = 0; i < playerIcons.Count; i++)
+            // {
+            //     var placeTransform = scheme.transform.Find($"{i}");
+            //     playerIcons[i].transform.position = placeTransform.position;
+            // }
         }
 
         public void SwapPlayerPositions(GameObject icon1, GameObject icon2)
