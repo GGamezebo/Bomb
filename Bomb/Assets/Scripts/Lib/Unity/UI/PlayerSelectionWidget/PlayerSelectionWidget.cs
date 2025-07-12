@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,13 +10,15 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
     {
         [SerializeField] public GameObject addPlayerButton;
         [SerializeField] public GameObject playerIconPrefab;
-        public List<GameObject> playerIcons = new List<GameObject>();
+        public List<GameObject> playerIcons = new ();
         
         protected virtual void OnEnable() { }
         protected virtual void OnDisable() { }
         protected virtual void OnPlayerAdded(string playerName, int presetId) { }
         protected virtual void OnPlayerRemoved(int playerIndex) { }
         
+        protected virtual void Awake() {}
+
         public void AddPlayer(string playerName, int presetId)
         {
             CreatePlayerIcon(playerName, presetId);
@@ -31,11 +34,16 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             slimeImage.sprite = Resources.Load<Sprite>( $"Slimes/{presetId}");
             playerNameText.text = playerName;
             
-            newIcon.AddComponent<PlayerIconDragHandler>();
+            AddComponent(newIcon);
             PlayerIconDragHandler dragHandler = newIcon.GetComponent<PlayerIconDragHandler>();
             dragHandler.playerSelectionWidget = this;
             
             playerIcons.Add(newIcon);
+        }
+
+        protected virtual void AddComponent(GameObject newIcon)
+        {
+            newIcon.AddComponent<PlayerIconDragHandler>();
         }
 
         protected void UpdatePlayerPositions()
@@ -50,6 +58,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 float coeff = 0.5f;
                 Vector3 pos = new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
                 playerIcons[i].transform.localPosition = pos;
+                playerIcons[i].GetComponent<PlayerIconDragHandler>().ResetPosition(pos);
             }
 
             // var places = gameObject.transform.Find("Table/Places").gameObject;
@@ -58,6 +67,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             // {
             //     var placeTransform = scheme.transform.Find($"{i}");
             //     playerIcons[i].transform.position = placeTransform.position;
+            //     playerIcons[i].GetComponent<PlayerIconDragHandler>().ResetPosition(placeTransform.position);
             // }
         }
 

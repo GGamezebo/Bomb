@@ -11,7 +11,9 @@ namespace Common
             EvTouchPrevPlayer = "evTouchPrevPlayer",
             EvTouchStartRound = "evTouchStartRound",
             EvAlert = "evAlert",
-            EvCountDownTickChanged = "EvCountDownTickChanged";
+            EvCountDownTickChanged = "EvCountDownTickChanged",
+            EvPlayerMoveBegin = "EvPlayerMoveBegin",
+            EvPlayerMoveEnd = "EvPlayerMoveEnd";
     }
     
 }

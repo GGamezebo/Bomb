@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Common
+namespace UI.Common
 {
     public class EditPlayerWidgetWindow : Lib.Unity.UI.PlayerSelectionWidget.EditPlayerWidgetWindow
     {

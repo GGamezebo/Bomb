@@ -11,8 +11,6 @@ namespace UI.MainMenu
 {
     public class StartButton : MonoBehaviour
     {
-        public Sprite activeSprite;
-        public Sprite inactiveSprite;
         private GlobalContext _globalContext;
         private Lib.EventListener _eventListener;
         
@@ -34,8 +32,6 @@ namespace UI.MainMenu
             var isActive = _globalContext.PData().players.Count >= 2;
             var button = GetComponent<Button>();
             button.interactable = isActive;
-            var image = GetComponent<Image>();
-            image.sprite = isActive ? activeSprite : inactiveSprite;
         }
         
         void Start()
