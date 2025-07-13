@@ -5031,6 +5031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addPlayerButton: {fileID: 853875715}
   playerIconPrefab: {fileID: 287137559173038907, guid: 72f1e9ad1c926bf41a82a7a7d984744f, type: 3}
+  chairPrefab: {fileID: 2833254485200100453, guid: 1e7769f97d61ca940aac860cb557520c, type: 3}
   playerIcons: []
   globalContext: {fileID: 1115452026}
   addPlayerSprite: {fileID: 4464013053684513167, guid: e55d9e6f1548a644ab0330fce40e51f3, type: 3}

@@ -23,9 +23,13 @@ namespace UI.Common.PlayerSelectionWidget
         
         private void Start()
         {
+            foreach (var _ in globalContext.PData().players)
+            {
+                CreateChair();
+            }
             foreach (var playerInfo in globalContext.PData().players)
             {
-                CreatePlayerIcon(playerInfo.name, playerInfo.presetId);
+                CreatePlayerIcon(playerInfo.name, playerInfo.presetId, false);
             }
             UpdatePlayerPositions();
             UpdateAddPlayerButton();

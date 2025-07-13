@@ -10,7 +10,9 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
     {
         [SerializeField] public GameObject addPlayerButton;
         [SerializeField] public GameObject playerIconPrefab;
+        [SerializeField] GameObject chairPrefab;
         public List<GameObject> playerIcons = new ();
+        private List<GameObject> _chairs = new ();
         
         protected virtual void OnEnable() { }
         protected virtual void OnDisable() { }
@@ -26,8 +28,11 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             OnPlayerAdded(playerName, presetId);
         }
         
-        public void CreatePlayerIcon(string playerName, int presetId)
+        public void CreatePlayerIcon(string playerName, int presetId, bool createChar=true)
         {
+            if (createChar)
+                CreateChair();
+            
             GameObject newIcon = Instantiate(playerIconPrefab, this.transform);
             var slimeImage = newIcon.transform.Find("CircleWithOutline/Slime").GetComponent<Image>();
             var playerNameText = newIcon.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
@@ -39,6 +44,11 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             dragHandler.playerSelectionWidget = this;
             
             playerIcons.Add(newIcon);
+        }
+
+        public void CreateChair()
+        {
+            _chairs.Add(Instantiate(chairPrefab, this.transform));
         }
 
         protected virtual void AddComponent(GameObject newIcon)
@@ -61,6 +71,9 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 Vector3 pos = center + new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
                 playerIcons[i].transform.position = pos;
                 playerIcons[i].GetComponent<PlayerIconDragHandler>().ResetPosition(pos);
+                
+                _chairs[i].transform.position = pos;
+                _chairs[i].transform.rotation = Quaternion.Euler(0, 0, i * angleStep - 90);
             }
 
             // var places = gameObject.transform.Find("Table/Places").gameObject;
@@ -100,9 +113,12 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             int index = playerIcons.IndexOf(icon);
             if (index != -1)
             {
+                var chair = _chairs[index];
+                _chairs.RemoveAt(index);
                 playerIcons.RemoveAt(index);
                 OnPlayerRemoved(index);
                 Destroy(icon);
+                Destroy(chair);
                 UpdatePlayerPositions();
             }
         }
