@@ -4,7 +4,7 @@ using Common;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Common
+namespace UI.Common.PlayerSelectionWidget
 {
     public class PlayerSelectionWidget : Lib.Unity.UI.PlayerSelectionWidget.PlayerSelectionWidget
     {
@@ -46,7 +46,7 @@ namespace UI.Common
         
         protected override void AddComponent(GameObject newIcon)
         {
-            newIcon.AddComponent<UI.Common.PlayerIconDragHandler>();
+            newIcon.AddComponent<UI.Common.PlayerSelectionWidget.PlayerIconDragHandler>();
         }
 
         private void OnPlayerMoveBegin()

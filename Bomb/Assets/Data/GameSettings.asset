@@ -14,13 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPlayers: 12
   devPlayerNames:
-  - name: Igor
+  - name: 1
     presetId: 0
-  - name: German
+  - name: 2
     presetId: 1
+  - name: 3
+    presetId: 2
+  - name: 4
+    presetId: 3
+  - name: 5
+    presetId: 4
+  - name: 6
+    presetId: 5
+  - name: 7
+    presetId: 6
+  - name: 8
+    presetId: 7
+  - name: 9
+    presetId: 8
+  - name: 10
+    presetId: 9
+  - name: 11
+    presetId: 10
+  - name: 12
+    presetId: 11
   countdownTime: 5
   minBombAliveTime: 10
-  maxBombAliveTime: 60
+  maxBombAliveTime: 20
   bonusBombAliveTime: 5
   alertBombTime: 5
   explosionCountdownTime: 5
@@ -42,19 +62,3 @@ MonoBehaviour:
   - co
   - "\u043C\u0435\u0442\u0440"
   - "\u0438\u043D\u043A"
-  - "\u0435\u043C"
-  - "\u0430\u043D"
-  - "\u0431\u0440\u0438"
-  - "\u0431\u044B"
-  - "\u0432\u043D\u0438"
-  - "\u0433\u043E\u043D"
-  - "\u0434\u043E"
-  - "\u0434\u043E\u0437"
-  - "\u0436\u0438"
-  - "\u0437\u0438\u043A"
-  - "\u043A\u0430\u0441"
-  - "\u043A\u043E\u0441"
-  - "\u043A\u0440\u0430"
-  - "\u043C\u0435\u0440"
-  - "\u043C\u043E\u043B"
-  - "\u0430\u043D\u0442"

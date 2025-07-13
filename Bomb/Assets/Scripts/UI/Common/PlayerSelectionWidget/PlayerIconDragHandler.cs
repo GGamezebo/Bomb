@@ -1,6 +1,6 @@
 ﻿using Events = Common.Events;
 
-namespace UI.Common
+namespace UI.Common.PlayerSelectionWidget
 {
     public class PlayerIconDragHandler : Lib.Unity.UI.PlayerSelectionWidget.PlayerIconDragHandler
     {
