@@ -1,9 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using Unity.Burst.Intrinsics;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 namespace Lib.Unity.UI.PlayerSelectionWidget
 {
+    public enum State
+    {
+        None = 0,
+        Returning = 1,
+        Swapping = 2,
+    }
+    
     public class PlayerIconDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {
         public PlayerSelectionWidget playerSelectionWidget;
@@ -12,8 +22,25 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         private Vector3 _offset;
         private RectTransform _rectTransform;
-        private bool _isReturning = false;
         private readonly float _returnSpeed = 5f;
+        private State _state = State.None;
+        
+        public PlayerIconDragHandler targetDragHandler;
+        private AnimationCurve curve;
+        private float swappingTimer = 0;
+
+        public void setState(State state)
+        {
+            if (_state != state)
+            {
+                _state = state;
+                if (state == State.Swapping || state == State.Returning)
+                {
+                    swappingTimer = 0;
+                    curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+                }
+            }
+        }
 
         protected virtual void Awake()
         {
@@ -22,7 +49,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         public void Start()
         {
-            startPosition = _rectTransform.localPosition;
+            startPosition = _rectTransform.position;
             _siblingIndex = transform.GetSiblingIndex();
         }
 
@@ -43,10 +70,35 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 out Vector3 worldPoint);
 
             _offset = _rectTransform.position - worldPoint;
-            
-            _isReturning = false;
 
             Begin();
+        }
+        
+        void OnDrawGizmos()
+        {
+            Rect droppedRect = GetWorldRect(GetComponent<RectTransform>());
+            foreach (GameObject icon in playerSelectionWidget.playerIcons)
+            {
+
+                    var startPosition = icon.GetComponent<PlayerIconDragHandler>().startPosition;
+                    var rect = icon.GetComponent<RectTransform>().rect;
+                    var size = rect.width;
+                    Rect targetRect = new Rect(startPosition.x - rect.width / 2, startPosition.y - rect.height / 2, rect.width, rect.height);
+                    
+                    Vector3 center = startPosition;
+                    
+                    Vector3 topLeft = center + new Vector3(-size / 2, size / 2, 0);
+                    Vector3 topRight = center + new Vector3(size / 2, size / 2, 0);
+                    Vector3 bottomLeft = center + new Vector3(-size / 2, -size / 2, 0);
+                    Vector3 bottomRight = center + new Vector3(size / 2, -size / 2, 0);
+        
+                    // Рисуем линии
+                    Gizmos.DrawLine(topLeft, topRight);
+                    Gizmos.DrawLine(topRight, bottomRight);
+                    Gizmos.DrawLine(bottomRight, bottomLeft);
+                    Gizmos.DrawLine(bottomLeft, topLeft);
+                
+            }
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -58,23 +110,64 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                     out Vector3 worldPoint))
             {
                 _rectTransform.position = worldPoint + _offset;
+                
+                
+                Rect droppedRect = GetWorldRect(GetComponent<RectTransform>());
+                var dragHandler = gameObject.GetComponent<PlayerIconDragHandler>();
+                bool isHold = false;
+                foreach (GameObject icon in playerSelectionWidget.playerIcons)
+                {
+                    if (icon != gameObject)
+                    {
+                        var iconDragHandler = icon.GetComponent<PlayerIconDragHandler>();
+                        var startPosition = iconDragHandler.startPosition;
+                        var rect = icon.GetComponent<RectTransform>().rect;
+                        Rect targetRect = new Rect(startPosition.x - rect.width / 2, startPosition.y - rect.height / 2, rect.width, rect.height);
+                        if (!isHold && droppedRect.Overlaps(targetRect))
+                        {
+                            isHold = true;
+                            iconDragHandler.setState(State.Swapping);
+                            iconDragHandler.targetDragHandler = dragHandler;
+                        }
+                        else if (iconDragHandler.targetDragHandler != null)
+                        {
+                            iconDragHandler.setState(State.Returning);
+                            iconDragHandler.targetDragHandler = null;
+                        }
+                    }
+                }
+
+                Rect addPlayerButtonRect = GetWorldRect(playerSelectionWidget.addPlayerButton.GetComponent<RectTransform>());
+                if (droppedRect.Overlaps(addPlayerButtonRect))
+                {
+                    playerSelectionWidget.addPlayerButton.GetComponent<Outline>().enabled = true;
+                }
+                else
+                {
+                    playerSelectionWidget.addPlayerButton.GetComponent<Outline>().enabled = false;
+                }
             }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
             transform.SetSiblingIndex(_siblingIndex);
-            _isReturning = true;
-
+            playerSelectionWidget.addPlayerButton.GetComponent<Outline>().enabled = false;
+            
             Rect droppedRect = GetWorldRect(GetComponent<RectTransform>());
             foreach (GameObject icon in playerSelectionWidget.playerIcons)
             {
                 if (icon != gameObject)
                 {
-                    Rect targetRect = GetWorldRect(icon.GetComponent<RectTransform>());
+                    var iconDragHandler = icon.GetComponent<PlayerIconDragHandler>();
+                    var startPosition = iconDragHandler.startPosition;
+                    var rect = icon.GetComponent<RectTransform>().rect;
+                    Rect targetRect = new Rect(startPosition.x - rect.width / 2, startPosition.y - rect.height / 2, rect.width, rect.height);
                     if (droppedRect.Overlaps(targetRect))
                     {
                         playerSelectionWidget.SwapPlayerPositions(gameObject, icon);
+                        gameObject.GetComponent<PlayerIconDragHandler>().setState(State.None);
+                        iconDragHandler.setState(State.None);
                         End();
                         return;
                     }
@@ -90,6 +183,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 return;
             }
 
+            setState(State.Returning);
             End();
         }
 
@@ -104,14 +198,26 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         void Update()
         {
-            if (_isReturning && Vector3.Distance(_rectTransform.localPosition, startPosition) > 0.01f)
+            switch (_state)
             {
-                _rectTransform.localPosition = Vector3.Lerp(_rectTransform.localPosition, startPosition,
-                    _returnSpeed * Time.deltaTime);
-            }
-            else
-            {
-                _isReturning = false;
+                case State.Swapping:
+                    swappingTimer += Time.deltaTime;
+                    var time = curve.Evaluate(swappingTimer);
+                    var targetRectTransform = targetDragHandler.GetComponent<RectTransform>();
+                    _rectTransform.position = Vector3.Lerp(_rectTransform.position, targetDragHandler.startPosition, time);
+                    break;
+                case State.Returning:
+                    if (Vector3.Distance(_rectTransform.position, startPosition) < 0.01)
+                    {
+                        _rectTransform.position = startPosition;
+                        _state = State.None;
+                    }
+                    else
+                    {
+                        swappingTimer += Time.deltaTime;
+                        _rectTransform.position = Vector3.Lerp(_rectTransform.position, startPosition, curve.Evaluate(swappingTimer));
+                    }
+                    break;
             }
         }
 

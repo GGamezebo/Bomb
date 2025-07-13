@@ -21,6 +21,16 @@ namespace UI.Common
             _eventListener = globalContext.MakeEventListener();
         }
         
+        private void Start()
+        {
+            foreach (var playerInfo in globalContext.PData().players)
+            {
+                CreatePlayerIcon(playerInfo.name, playerInfo.presetId);
+            }
+            UpdatePlayerPositions();
+            UpdateAddPlayerButton();
+        }
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -48,16 +58,6 @@ namespace UI.Common
         private void OnPlayerMoveEnd()
         {
             addPlayerButton.GetComponent<Image>().sprite = addPlayerSprite;
-            UpdateAddPlayerButton();
-        }
-        
-        private void Start()
-        {
-            foreach (var playerInfo in globalContext.PData().players)
-            {
-                CreatePlayerIcon(playerInfo.name, playerInfo.presetId);
-            }
-            UpdatePlayerPositions();
             UpdateAddPlayerButton();
         }
         

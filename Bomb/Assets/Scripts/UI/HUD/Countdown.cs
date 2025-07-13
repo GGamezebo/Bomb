@@ -13,7 +13,6 @@ namespace UI.HUD
         protected virtual void OnEnable()
         {
             base.OnEnable();
-            var i = 1;
         }
 
         protected override void Subscribe()

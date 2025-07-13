@@ -51,13 +51,15 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
          
             float angleStep = 360f / playerIcons.Count;
             var table = gameObject.transform.Find("Table").gameObject;
+            var tableRectTransform = table.GetComponent<RectTransform>();
+            var rect = tableRectTransform.rect;
+            var center = tableRectTransform.position;
+            float coeff = 0.45f;
             for (int i = 0; i < playerIcons.Count; i++)
             {
                 float angle = i * angleStep * Mathf.Deg2Rad;
-                var rect = table.GetComponent<RectTransform>().rect;
-                float coeff = 0.5f;
-                Vector3 pos = new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
-                playerIcons[i].transform.localPosition = pos;
+                Vector3 pos = center + new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
+                playerIcons[i].transform.position = pos;
                 playerIcons[i].GetComponent<PlayerIconDragHandler>().ResetPosition(pos);
             }
 
