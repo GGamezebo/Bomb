@@ -4,7 +4,9 @@ namespace Common
     {
         public const string
             EvPlayerAdded = "evPlayerAdded",
+            EvPlayerModified = "evPlayerModified",
             EvPlayerRemoved = "evPlayerRemoved",
+            EvPlayerSwapped = "evPlayerSwapped",
             EvGameStateChanged = "evGameStateChanged",
             EvCurrentPlayerChanged = "evCurrentPlayerChanged",
             EvTouchNextPlayer = "evTouchNextPlayer",

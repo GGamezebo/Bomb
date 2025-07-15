@@ -20,7 +20,7 @@ namespace UI.Common.PlayerSelectionWidget
             {
                 var colorItem = colors[i];
                 var unavailable = colorItem.transform.Find("Unavailable").gameObject;
-                unavailable.SetActive(playerPresetStorage.isHold(i));
+                unavailable.SetActive(i != editablePresetId && playerPresetStorage.isHold(i));
                 
                 if (!unavailable.active)
                 {

@@ -23,6 +23,12 @@ namespace UI.Common.PlayerSelectionWidget
         {
             _event.Call(Events.EvPlayerMoveEnd);
         }
-        
+
+        protected override void OnHolded()
+        {
+            int index = playerSelectionWidget.playerIcons.IndexOf(gameObject);
+            var playerInfo = _globalContext.PData().players[index];
+            playerSelectionWidget.OpenEditWindow(index, playerInfo.name, playerInfo.presetId);
+        }
     }
 }

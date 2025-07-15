@@ -1,8 +1,7 @@
-﻿using System;
-using Unity.Burst.Intrinsics;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 
 namespace Lib.Unity.UI.PlayerSelectionWidget
@@ -22,12 +21,17 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         private Vector3 _offset;
         private RectTransform _rectTransform;
-        private readonly float _returnSpeed = 5f;
         private State _state = State.None;
-        
+
         public PlayerIconDragHandler targetDragHandler;
         private AnimationCurve curve;
         private float swappingTimer = 0;
+
+        private bool _isHolding = false;
+        private float _holdingTimer = 0;
+        private readonly float _holdingTime = 2f;
+
+        protected virtual void OnHolded() { }
 
         public void setState(State state)
         {
@@ -52,7 +56,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             startPosition = _rectTransform.position;
             _siblingIndex = transform.GetSiblingIndex();
         }
-
+        
         public void ResetPosition(Vector3 position)
         {
             startPosition = position;
@@ -70,35 +74,11 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 out Vector3 worldPoint);
 
             _offset = _rectTransform.position - worldPoint;
-
+            
+            _isHolding = true;
+            _holdingTimer = 0;
+            
             Begin();
-        }
-        
-        void OnDrawGizmos()
-        {
-            Rect droppedRect = GetWorldRect(GetComponent<RectTransform>());
-            foreach (GameObject icon in playerSelectionWidget.playerIcons)
-            {
-
-                    var startPosition = icon.GetComponent<PlayerIconDragHandler>().startPosition;
-                    var rect = icon.GetComponent<RectTransform>().rect;
-                    var size = rect.width;
-                    Rect targetRect = new Rect(startPosition.x - rect.width / 2, startPosition.y - rect.height / 2, rect.width, rect.height);
-                    
-                    Vector3 center = startPosition;
-                    
-                    Vector3 topLeft = center + new Vector3(-size / 2, size / 2, 0);
-                    Vector3 topRight = center + new Vector3(size / 2, size / 2, 0);
-                    Vector3 bottomLeft = center + new Vector3(-size / 2, -size / 2, 0);
-                    Vector3 bottomRight = center + new Vector3(size / 2, -size / 2, 0);
-        
-                    // Рисуем линии
-                    Gizmos.DrawLine(topLeft, topRight);
-                    Gizmos.DrawLine(topRight, bottomRight);
-                    Gizmos.DrawLine(bottomRight, bottomLeft);
-                    Gizmos.DrawLine(bottomLeft, topLeft);
-                
-            }
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -110,6 +90,11 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                     out Vector3 worldPoint))
             {
                 _rectTransform.position = worldPoint + _offset;
+
+                if (_isHolding && Vector3.Distance(_rectTransform.position, startPosition) > 0.1f)
+                {
+                    _isHolding = false;
+                }
                 
                 
                 Rect droppedRect = GetWorldRect(GetComponent<RectTransform>());
@@ -151,6 +136,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            _isHolding = false;
             transform.SetSiblingIndex(_siblingIndex);
             playerSelectionWidget.addPlayerButton.GetComponent<Outline>().enabled = false;
             
@@ -198,6 +184,16 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         void Update()
         {
+            if (_isHolding)
+            {
+                _holdingTimer += Time.deltaTime;
+                if (_holdingTimer >= _holdingTime)
+                {
+                    _isHolding = false;
+                    OnHolded();
+                }
+            }
+            
             switch (_state)
             {
                 case State.Swapping:

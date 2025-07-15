@@ -23,13 +23,9 @@ namespace UI.Common.PlayerSelectionWidget
         
         private void Start()
         {
-            foreach (var _ in globalContext.PData().players)
-            {
-                CreateChair();
-            }
             foreach (var playerInfo in globalContext.PData().players)
             {
-                CreatePlayerIcon(playerInfo.name, playerInfo.presetId, false);
+                CreatePlayerIcon(playerInfo.name, playerInfo.presetId);
             }
             UpdatePlayerPositions();
             UpdateAddPlayerButton();
@@ -73,6 +69,15 @@ namespace UI.Common.PlayerSelectionWidget
             UpdateAddPlayerButton();
             _event.Call(Events.EvPlayerAdded, playerInfo);
         }
+                
+        protected override void OnPlayerModified(int playerIndex, string playerName, int presetId)
+        {
+            var playerInfo = globalContext.PData().players[playerIndex];
+            playerInfo.name = playerName;
+            playerInfo.presetId = presetId;
+            globalContext.accountDataComponent.Save();
+            _event.Call(Events.EvPlayerModified, playerInfo);
+        }
         
         protected override void OnPlayerRemoved(int playerIndex)
         {
@@ -81,6 +86,14 @@ namespace UI.Common.PlayerSelectionWidget
             globalContext.accountDataComponent.Save();
             UpdateAddPlayerButton();
             _event.Call(Events.EvPlayerRemoved, playerInfo);
+        }        
+        protected override void OnSwapPlayerPositions(int index1, int index2)
+        {
+            var players = globalContext.PData().players;
+            (players[index1], players[index2]) = (players[index2], players[index1]);
+            globalContext.accountDataComponent.Save();
+            UpdateAddPlayerButton();
+            _event.Call(Events.EvPlayerSwapped);
         }
 
         private bool IsFullPlayers()

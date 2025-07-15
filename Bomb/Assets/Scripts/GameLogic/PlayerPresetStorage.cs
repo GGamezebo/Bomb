@@ -43,6 +43,7 @@ namespace GameLogic
             base.Subscribe();
             _eventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
             _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnPlayerRemoved));
+            _eventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo>(OnPlayerModified));
         }
 
         private void Start()
@@ -55,13 +56,13 @@ namespace GameLogic
             return _locks.Contains(presetId);
         }
         
-        PlayerPreset Take(int presetId)
+        public PlayerPreset Take(int presetId)
         {
             _locks.Add(presetId);
             return _storage[presetId];
         }
 
-        void Free(int presetId)
+        public void Free(int presetId)
         {
             _locks.Remove(presetId);
         }
@@ -72,6 +73,11 @@ namespace GameLogic
         }
 
         private void OnPlayerRemoved(PlayerInfo playerName)
+        {
+            UpdateAllStorage();
+        }
+        
+        private void OnPlayerModified(PlayerInfo playerName)
         {
             UpdateAllStorage();
         }

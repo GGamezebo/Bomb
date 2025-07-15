@@ -11,28 +11,44 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         [SerializeField] public TMP_InputField playerName;
         [SerializeField] public Image playerImage;
         [SerializeField] public Button ok;
+        [SerializeField] public Button apply;
         [SerializeField] protected GameObject playerSelection;
         [SerializeField] protected List<GameObject> colors;
         
         protected GameObject SelectedColorItem;
+        private int _playerIndex = -1;
+        protected int editablePresetId = -1;
 
         protected virtual string PlayerImageBasePath => "";
 
 
-        protected virtual void Awake()
+        protected virtual void Awake() { }
+        protected virtual void OnEnable() { }
+        protected virtual void OnDisable() { }
+
+        public void OpenAddPlayerWindow()
         {
-            
-        }
-        
-        protected virtual void OnEnable()
-        {
-            playerName.text = "";
-            playerName.ActivateInputField();
+            ok.gameObject.SetActive(true);
+            apply.gameObject.SetActive(false);
+            editablePresetId = -1;
+            OpenWidow("");
         }
 
-        protected virtual void OnDisable()
+        public void OpenEditWindow(int playerIndex, string _playerName, int presetId)
         {
-            
+            ok.gameObject.SetActive(false);
+            apply.gameObject.SetActive(true);
+            _playerIndex = playerIndex;
+            editablePresetId = presetId;
+            OpenWidow(_playerName);
+            SelectColorItem(colors[presetId]);
+        }
+
+        private void OpenWidow(string _playerName)
+        {
+            gameObject.SetActive(true);
+            playerName.text = _playerName;
+            playerName.ActivateInputField();
         }
         
         public void OnColorClicked(BaseEventData eventData)
@@ -64,6 +80,17 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
             var selectionWidget = playerSelection.GetComponent<PlayerSelectionWidget>();
             selectionWidget.AddPlayer(newPlayerName, presetId);
+        }       
+        
+        public void OnApplyClicked()
+        {
+            gameObject.SetActive(false);
+
+            var newPlayerName = playerName.text.Trim();
+            var presetId = colors.IndexOf(SelectedColorItem);
+
+            var selectionWidget = playerSelection.GetComponent<PlayerSelectionWidget>();
+            selectionWidget.ApplyPlayer(_playerIndex, newPlayerName, presetId);
         }
 
         public void OnCancelClicked()

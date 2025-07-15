@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
     public class PlayerSelectionWidget : MonoBehaviour
     {
         [SerializeField] public GameObject addPlayerButton;
+        [SerializeField] public GameObject editPlayerWindow;
         [SerializeField] public GameObject playerIconPrefab;
         [SerializeField] GameObject chairPrefab;
         public List<GameObject> playerIcons = new ();
@@ -17,38 +19,51 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
         protected virtual void OnEnable() { }
         protected virtual void OnDisable() { }
         protected virtual void OnPlayerAdded(string playerName, int presetId) { }
+        protected virtual void OnPlayerModified(int playerIndex, string playerName, int presetId) { }
         protected virtual void OnPlayerRemoved(int playerIndex) { }
-        
+        protected virtual void OnSwapPlayerPositions(int index1, int index2) { }
+
         protected virtual void Awake() {}
 
+        public void OpenEditWindow(int index, string playerName, int presetId)
+        {
+            var scriptComponent = editPlayerWindow.GetComponent<EditPlayerWidgetWindow>();
+            scriptComponent.OpenEditWindow(index, playerName, presetId);
+        }
+        
         public void AddPlayer(string playerName, int presetId)
         {
             CreatePlayerIcon(playerName, presetId);
             UpdatePlayerPositions();
             OnPlayerAdded(playerName, presetId);
+        }        
+        
+        public void ApplyPlayer(int playerIndex, string newPlayerName, int presetId)
+        {
+            SetPlayerParams(playerIcons[playerIndex], newPlayerName, presetId);
+            OnPlayerModified(playerIndex, newPlayerName, presetId);
         }
         
-        public void CreatePlayerIcon(string playerName, int presetId, bool createChar=true)
+        public void CreatePlayerIcon(string playerName, int presetId)
         {
-            if (createChar)
-                CreateChair();
-            
             GameObject newIcon = Instantiate(playerIconPrefab, this.transform);
-            var slimeImage = newIcon.transform.Find("CircleWithOutline/Slime").GetComponent<Image>();
-            var playerNameText = newIcon.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
-            slimeImage.sprite = Resources.Load<Sprite>( $"Slimes/{presetId}");
-            playerNameText.text = playerName;
+            SetPlayerParams(newIcon, playerName, presetId);
             
             AddComponent(newIcon);
             PlayerIconDragHandler dragHandler = newIcon.GetComponent<PlayerIconDragHandler>();
             dragHandler.playerSelectionWidget = this;
             
             playerIcons.Add(newIcon);
+            _chairs.Add(Instantiate(chairPrefab, this.transform));
         }
 
-        public void CreateChair()
+        private void SetPlayerParams(GameObject playerIcon, string playerName, int presetId)
         {
-            _chairs.Add(Instantiate(chairPrefab, this.transform));
+            var slimeImage = playerIcon.transform.Find("CircleWithOutline/Slime").GetComponent<Image>();
+            var playerNameText = playerIcon.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
+            playerNameText.text = playerName;
+            slimeImage.sprite = Resources.Load<Sprite>( $"Slimes/{presetId}");
+            
         }
 
         protected virtual void AddComponent(GameObject newIcon)
@@ -99,6 +114,8 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 icon1.GetComponent<PlayerIconDragHandler>().startPosition =
                     icon2.GetComponent<PlayerIconDragHandler>().startPosition;
                 icon2.GetComponent<PlayerIconDragHandler>().startPosition = t;
+
+                OnSwapPlayerPositions(index1, index2);
 
                 UpdatePlayerPositions(); // Обновляем позиции на экране
             }
