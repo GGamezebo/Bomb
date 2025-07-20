@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using Account;
 using Common;
+using Lib.FSM;
 using ScriptableObjects;
 using UnityEngine;
 using Random = System.Random;
+
 
 namespace GameLogic
 {
@@ -26,6 +28,8 @@ namespace GameLogic
         private bool _isBlockedPrevPlayer = false;
         private int _lastSecond = -1;
 
+        private FSM _sfm;
+
         private void OnEnable()
         {
             globalContext = FindFirstObjectByType<GlobalContext>();
@@ -38,6 +42,17 @@ namespace GameLogic
 
         void Start()
         {
+            var textAsset = Resources.Load<TextAsset>("GameConfig.json");
+            _sfm = FSM.MakeFSMFromJSON(textAsset.text, new List<IFSMState>() {
+                new CountdownState("Countdown", 5),
+                new PlayState("Play"),
+                new ReadyToStartState("ReadyToStart"),
+                new ResultState("Result"),
+                new ExplosionState("Explosion"),
+            }, new Dictionary<string, Func<bool>>() {
+                {"finish", () => _sfm.CurrentState.CanTransit()},
+            });
+            
             _bomb = new Bomb(this);
             _explosion = new Explosion(this);
             var pdata = globalContext.PData();
@@ -71,6 +86,7 @@ namespace GameLogic
         {
             NextCard();
             StartRound();
+            _sfm.AddEvent("evStartGame");
         }
 
         public Player GetCurrentPlayer()
@@ -150,6 +166,8 @@ namespace GameLogic
         // Update is called once per frame
         void Update()
         {
+            _sfm.Update(Time.deltaTime);
+            
             switch (State)
             {
                 case GameState.Inactive:
@@ -257,6 +275,80 @@ namespace GameLogic
 
                 _duration += dt;
             }
+        }
+    }
+
+
+    public class TimedState : FSMState
+    {
+        private float _duration;
+        private float _timeElapsed;
+        
+        public TimedState(string name, float duration) : base(name)
+        {
+            _duration = duration;
+            _timeElapsed = 0;
+        }
+        
+        public override void Update(float dt)
+        {
+            base.Update(dt);
+            _timeElapsed += dt;
+        }
+
+        public bool IsFinished()
+        {
+            return _timeElapsed >= _duration;
+        }
+
+        public override bool CanTransit()
+        {
+            return IsFinished();
+        }
+    }
+
+    public class CountdownState: TimedState
+    {
+        public CountdownState(string name, float duration) : base(name, duration)
+        {
+        }
+
+        public override void Enter(IFSMState prevState, object eventData)
+        {
+            int a = 1;
+        }
+        public override void Leave(object eventData)
+        {
+            int i = 3;
+        }
+    }
+    
+    
+    public class PlayState: FSMState
+    {
+        public PlayState(string name) : base(name)
+        {
+        }
+    }    
+    
+    public class ExplosionState: FSMState
+    {
+        public ExplosionState(string name) : base(name)
+        {
+        }
+    }   
+    
+    public class ReadyToStartState: FSMState
+    {
+        public ReadyToStartState(string name) : base(name)
+        {
+        }
+    }    
+    
+    public class ResultState: FSMState
+    {
+        public ResultState(string name) : base(name)
+        {
         }
     }
 

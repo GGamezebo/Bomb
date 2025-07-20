@@ -1,0 +1,11 @@
+{
+  "initial": {"state": "Inactive"},
+  "transitions": [
+    {"src": "Inactive", "dst": "Countdown", "event": "evStartGame"},
+    {"src": "Countdown", "dst": "Play", "condition": "finish"},
+    {"src": "Play", "dst": "Explosion", "event": "evExplosion"},
+    {"src": "Explosion", "dst": "ReadyToStart", "event": "evExplosion"},
+    {"src": "Explosion", "dst": "Result", "event": "evResult"},
+    {"src": "ReadyToStart", "dst": "Countdown", "event": "evStartNextRound"}
+  ]
+}
