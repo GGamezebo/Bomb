@@ -54,7 +54,7 @@ namespace GameLogic
             else if (Application.platform == RuntimePlatform.WindowsPlayer || 
                      Application.platform == RuntimePlatform.WindowsEditor)
             {
-                ProcessMouseInput();
+                ProcessTouchInput();
             }
         }
 
@@ -105,8 +105,22 @@ namespace GameLogic
                     }
                     else
                     {
-                        gameComponent.NextPlayer();
-                        _event.Call(Events.EvTouchNextPlayer);
+                        // Проверяем, что все пальцы убраны
+                        bool noTouches = true;
+                        foreach (var touch in Touchscreen.current.touches)
+                        {
+                            if (touch.isInProgress) // Если есть активное касание
+                            {
+                                noTouches = false;
+                                break;
+                            }
+                        }
+
+                        if (noTouches)
+                        {
+                            gameComponent.NextPlayer();
+                            _event.Call(Events.EvTouchNextPlayer);
+                        }
                     }
                 }
 

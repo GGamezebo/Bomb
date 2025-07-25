@@ -79,7 +79,8 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             var tableRectTransform = table.GetComponent<RectTransform>();
             var rect = tableRectTransform.rect;
             var center = tableRectTransform.position;
-            float coeff = 0.45f;
+            Debug.Log(tableRectTransform.root.localScale.x);
+            float coeff = 0.45f * tableRectTransform.root.localScale.x;
             for (int i = 0; i < playerIcons.Count; i++)
             {
                 float angle = i * angleStep * Mathf.Deg2Rad;

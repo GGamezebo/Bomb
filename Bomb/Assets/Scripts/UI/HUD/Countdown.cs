@@ -10,7 +10,7 @@ namespace UI.HUD
     {
         [SerializeField] private TMPro.TextMeshProUGUI textComponent;
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
             base.OnEnable();
         }

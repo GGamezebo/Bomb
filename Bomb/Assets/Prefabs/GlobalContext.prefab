@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da7675b647aed5478d97443b26fe644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
+  gameSettings: {fileID: 11400000, guid: 847ce7d0f0407f04c9c293e2c3c1166f, type: 2}
   accountDataComponent: {fileID: 8839720620830015949}
   playerPresetStorage: {fileID: 4403638886690963467}
 --- !u!114 &4403638886690963467
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0198594410e44ec5930f86c11c6c1361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
+  gameSettings: {fileID: 11400000, guid: 847ce7d0f0407f04c9c293e2c3c1166f, type: 2}
 --- !u!82 &4691566126108489764
 AudioSource:
   m_ObjectHideFlags: 0
@@ -191,7 +191,8 @@ MonoBehaviour:
   saveFileName: persistentObjects.json
   data:
     players: []
-  gameSettings: {fileID: 11400000, guid: 0889cefddaeb7c447bb29d6107913bae, type: 2}
+    gameTime: 0
+  gameSettings: {fileID: 11400000, guid: 847ce7d0f0407f04c9c293e2c3c1166f, type: 2}
 --- !u!114 &8325608258722586316
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,6 +48,8 @@ namespace GameLogic
 
             List<string> cardsStrings = new List<string>(GameSettings.cards);
             cardsStrings.Shuffle();
+            var cardNumbers = (int)((globalContext.PData().gameTime * 60) / ((GameSettings.maxBombAliveTime - GameSettings.minBombAliveTime) / 2.0));
+            cardsStrings = cardsStrings.GetRange(0, cardNumbers);
 
             Random rand = new Random();
             var length = rand.Next(cardsStrings.Count);

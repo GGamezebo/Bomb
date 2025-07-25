@@ -22,5 +22,6 @@ namespace Account
     public class AccountPersistentData
     {
         public List<PlayerInfo> players = new ();
+        public int gameTime = 5;
     }
 }
