@@ -23,8 +23,8 @@ namespace UI.HUD
         
         protected override void Subscribe()
         {
-            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
-            _eventListener.Add(Events.EvAlert, new Action(OnAlert));
+            EventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
+            EventListener.Add(Events.EvAlert, new Action(OnAlert));
         }
         
         private void Start()

@@ -13,7 +13,7 @@ namespace UI.HUD
 
         protected override void Subscribe()
         {
-            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
+            EventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
         }
 
         // Start is called before the first frame update

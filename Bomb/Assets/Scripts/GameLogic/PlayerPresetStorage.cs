@@ -30,7 +30,7 @@ namespace GameLogic
         private readonly HashSet<int> _locks = new ();
         
         
-        private void Awake()
+        protected override void Awake()
         {
             for (int i = 0; i < gameSettings.colorIcons.Count; i++) // Если это массив или List
             {
@@ -41,9 +41,9 @@ namespace GameLogic
         protected override void Subscribe()
         {
             base.Subscribe();
-            _eventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
-            _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnPlayerRemoved));
-            _eventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo>(OnPlayerModified));
+            EventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
+            EventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnPlayerRemoved));
+            EventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo>(OnPlayerModified));
         }
 
         private void Start()

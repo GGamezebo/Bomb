@@ -60,9 +60,9 @@ namespace Sound
 
         protected override void Subscribe()
         {
-            _eventListener.Add(Events.EvAlert, new Action(OnAlert));
-            _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
-            _eventListener.Add(Events.EvCountDownTickChanged, new Action<int>(OnCountDownTickChanged));
+            EventListener.Add(Events.EvAlert, new Action(OnAlert));
+            EventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
+            EventListener.Add(Events.EvCountDownTickChanged, new Action<int>(OnCountDownTickChanged));
         }
 
 

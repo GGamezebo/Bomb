@@ -1,3 +1,7 @@
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+
 namespace Common
 {
     public static class Events
@@ -16,6 +20,11 @@ namespace Common
             EvCountDownTickChanged = "EvCountDownTickChanged",
             EvPlayerMoveBegin = "EvPlayerMoveBegin",
             EvPlayerMoveEnd = "EvPlayerMoveEnd";
+
+        public static readonly IReadOnlyList<string> ALL = typeof(Events)
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(f => f.FieldType == typeof(string))
+            .Select(f => (string)f.GetValue(null))
+            .ToList();
     }
-    
 }

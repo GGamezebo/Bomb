@@ -17,8 +17,9 @@ namespace GameLogic
         private Lib.Event _event;
         private Vector2 _position;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _gameInput = new GameInput();
         }
         
@@ -105,11 +106,11 @@ namespace GameLogic
                     }
                     else
                     {
-                        // Проверяем, что все пальцы убраны
+                        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                         bool noTouches = true;
                         foreach (var touch in Touchscreen.current.touches)
                         {
-                            if (touch.isInProgress) // Если есть активное касание
+                            if (touch.isInProgress) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                             {
                                 noTouches = false;
                                 break;

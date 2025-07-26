@@ -46,15 +46,15 @@ namespace Common
             Debug.Log("<><><> onAlert");
         }
 
-        void OnCurrentPlayerChanged()
+        void OnCurrentPlayerChanged(Player currentPlayer)
         {
-            Debug.Log("<><><> onCurrentPlayerChanged " + _gameComponent.currentPlayerIndex);
+            Debug.Log($"<><><> onCurrentPlayerChanged {currentPlayer.Name}: presetId = {currentPlayer.PresetId}, index = {currentPlayer.Index}");
         }
 
         void Subscribe()
         {
             _eventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnStateChanged));
-            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action(OnCurrentPlayerChanged));
+            _eventListener.Add(Events.EvCurrentPlayerChanged, new Action<Player>(OnCurrentPlayerChanged));
             _eventListener.Add(Events.EvAlert, new Action(OnAlert));
         }
     }

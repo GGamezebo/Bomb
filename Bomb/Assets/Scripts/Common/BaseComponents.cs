@@ -1,35 +1,32 @@
-using System;
-using GameLogic;
 using UnityEngine;
-using Common;
 
 namespace Common
 {
     public class GameObserverMonoBehaviour : MonoBehaviour
     {
-        
-        void OnDestroy()
+        protected Lib.EventListener EventListener;
+
+        protected virtual void Awake()
         {
-            _eventListener = null;
+            var globalContext = FindFirstObjectByType<GlobalContext>();
+            EventListener = globalContext.MakeEventListener();
         }
-        
-        protected Lib.EventListener _eventListener;
+
+        protected virtual void OnDestroy()
+        {
+            EventListener = null;
+        }
 
         protected virtual void OnEnable()
         {
-            var globalContext = FindFirstObjectByType<GlobalContext>();
-            _eventListener = globalContext.MakeEventListener();
             Subscribe();
         }
 
         protected virtual void OnDisable()
         {
-            _eventListener.RemoveAllListeners();
+            EventListener.RemoveAllListeners();
         }
 
-        protected virtual void Subscribe()
-        {
-
-        }
+        protected virtual void Subscribe() { }
     }
 }

@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace GameLogic
 {
     public enum GameState
@@ -8,6 +11,13 @@ namespace GameLogic
         Explosion,
         ReadyToStart,
         Result
+    }
+
+    public static class GameStateUtils
+    {
+        public static readonly IReadOnlyList<GameState> ALL = new List<GameState>(
+            (GameState[])Enum.GetValues(typeof(GameState))
+        );
     }
 
     public enum WordCondition

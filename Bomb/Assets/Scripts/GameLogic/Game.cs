@@ -41,9 +41,9 @@ namespace GameLogic
             _bomb = new Bomb(this);
             _explosion = new Explosion(this);
             var pdata = globalContext.PData();
-            foreach (var playerInfo in pdata.players)
+            for (int i = 0; i < pdata.players.Count; i++)
             {
-                _players.Add(new Player(playerInfo));
+                _players.Add(new Player(pdata.players[i], i));
             }
 
             List<string> cardsStrings = new List<string>(GameSettings.cards);
@@ -65,6 +65,7 @@ namespace GameLogic
             }
 
             currentPlayerIndex = rand.Next(_players.Count);
+            _event.Call(Events.EvCurrentPlayerChanged, GetCurrentPlayer());
 
             Invoke(nameof(StartGame), 0.01f);
         }
@@ -83,7 +84,7 @@ namespace GameLogic
         private void SetCurrentPlayerIndex(int index)
         {
             currentPlayerIndex = index;
-            _event.Call(Events.EvCurrentPlayerChanged);
+            _event.Call(Events.EvCurrentPlayerChanged, GetCurrentPlayer());
         }
 
         private bool NextCard()
@@ -329,13 +330,16 @@ namespace GameLogic
     {
         public String Name => _playerInfo.name;
         public int PresetId => _playerInfo.presetId;
+        public int Index { get; }
+
         public int Score { get; private set; }
 
         private readonly PlayerInfo _playerInfo;
 
-        public Player(PlayerInfo playerInfo)
+        public Player(PlayerInfo playerInfo, int index)
         {
             _playerInfo = playerInfo;
+            Index = index;
             Score = 0;
         }
 
