@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,6 +26,15 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         protected virtual void Awake() {}
 
+        public void Clear()
+        {
+            foreach (var icon in playerIcons.ToList())
+            {
+                RemovePlayerIcon(icon);
+            }
+            UpdatePlayerPositions();
+        }
+        
         public virtual bool IsInteractable()
         {
             return true;
@@ -136,14 +146,28 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             int index = playerIcons.IndexOf(icon);
             if (index != -1)
             {
-                var chair = _chairs[index];
-                _chairs.RemoveAt(index);
-                playerIcons.RemoveAt(index);
-                OnPlayerRemoved(index);
-                Destroy(icon);
-                Destroy(chair);
+                RemovePlayerIconByIndex(icon, index);
                 UpdatePlayerPositions();
+                OnPlayerRemoved(index);
             }
+        }
+
+        private void RemovePlayerIcon(GameObject icon)
+        {
+            int index = playerIcons.IndexOf(icon);
+            if (index != -1)
+            {
+                RemovePlayerIconByIndex(icon, index);
+            }
+        }
+
+        private void RemovePlayerIconByIndex(GameObject icon, int index)
+        {
+            var chair = _chairs[index];
+            _chairs.RemoveAt(index);
+            playerIcons.RemoveAt(index);
+            Destroy(icon);
+            Destroy(chair);
         }
     }
 }

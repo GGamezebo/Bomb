@@ -22,8 +22,8 @@ namespace UI.Common.PlayerSelectionWidget
             _event = globalContext.MakeEvent();
             _eventListener = globalContext.MakeEventListener();
         }
-        
-        private void Start()
+
+        private void Init()
         {
             foreach (var playerInfo in globalContext.PData().players)
             {
@@ -32,10 +32,17 @@ namespace UI.Common.PlayerSelectionWidget
             UpdatePlayerPositions();
             UpdateAddPlayerButton();
         }
+
+        private void ReInit()
+        {
+            Clear();
+            Init();
+        }
         
         protected override void OnEnable()
         {
             base.OnEnable();
+            ReInit();
             _eventListener.Add(Events.EvPlayerMoveBegin, new Action(OnPlayerMoveBegin));
             _eventListener.Add(Events.EvPlayerMoveEnd, new Action(OnPlayerMoveEnd));
         }
