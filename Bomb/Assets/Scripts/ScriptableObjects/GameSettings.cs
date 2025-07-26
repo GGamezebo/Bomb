@@ -12,6 +12,7 @@ namespace ScriptableObjects
     public class GameSettings : ScriptableObject
     {
         public int maxPlayers = 12;
+        public int minPlayers = 2;
         public List<PlayerInfo> devPlayerNames = new()
         {
             new PlayerInfo("Igor", 0),

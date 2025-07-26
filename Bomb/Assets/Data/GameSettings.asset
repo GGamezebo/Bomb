@@ -18,12 +18,12 @@ MonoBehaviour:
     presetId: 0
   - name: German
     presetId: 1
-  countdownTime: 5
-  minBombAliveTime: 10
-  maxBombAliveTime: 60
+  countdownTime: 1
+  minBombAliveTime: 2
+  maxBombAliveTime: 4
   bonusBombAliveTime: 5
-  alertBombTime: 5
-  explosionCountdownTime: 5
+  alertBombTime: 1
+  explosionCountdownTime: 1
   colorIcons:
   - {fileID: -4646876343654227710, guid: 09da25eef7305264f90011d50c0d2345, type: 3}
   - {fileID: -6036146622879419313, guid: dbf5cc0e1e675dc45bb500aab978f2e0, type: 3}

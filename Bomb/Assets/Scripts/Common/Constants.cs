@@ -27,4 +27,11 @@ namespace Common
             .Select(f => (string)f.GetValue(null))
             .ToList();
     }
+
+    public class Scenes
+    {
+        public const string
+            MainMenu = "MainMenu",
+            Game = "Game";
+    }
 }

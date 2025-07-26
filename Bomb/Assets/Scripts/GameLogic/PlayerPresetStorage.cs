@@ -32,6 +32,7 @@ namespace GameLogic
         
         protected override void Awake()
         {
+            base.Awake();
             for (int i = 0; i < gameSettings.colorIcons.Count; i++) // Если это массив или List
             {
                 _storage.Add(i, new PlayerPreset(gameSettings.colorIcons[i]));

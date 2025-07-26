@@ -7,7 +7,8 @@ namespace Common
 {
     public sealed class Activator : GameObserverMonoBehaviour
     {
-        [SerializeField] private List<GameLogic.GameState> States;
+        [SerializeField] private List<GameLogic.GameState> states;
+        [SerializeField] private GameObject target;
         
         protected override void Subscribe()
         {
@@ -16,7 +17,7 @@ namespace Common
 
         private void OnGameStateChanged(GameLogic.GameState state)
         {
-            gameObject.SetActive(States.Contains(state));
+            target.SetActive(states.Contains(state));
         }
     }
 }

@@ -29,7 +29,7 @@ namespace UI.MainMenu
 
         private void UpdateState()
         {
-            var isActive = _globalContext.PData().players.Count >= 2;
+            var isActive = _globalContext.PData().players.Count >= _globalContext.gameSettings.minPlayers;
             var button = GetComponent<Button>();
             button.interactable = isActive;
         }
@@ -53,7 +53,7 @@ namespace UI.MainMenu
 
         void OnStartGame()
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene(Scenes.Game);
         }
     }
 }

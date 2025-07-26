@@ -123,7 +123,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
                 }
 
                 Rect addPlayerButtonRect = GetWorldRect(playerSelectionWidget.addPlayerButton.GetComponent<RectTransform>());
-                if (droppedRect.Overlaps(addPlayerButtonRect))
+                if (droppedRect.Overlaps(addPlayerButtonRect) && playerSelectionWidget.IsInteractable())
                 {
                     playerSelectionWidget.addPlayerButton.GetComponent<Outline>().enabled = true;
                 }
@@ -162,7 +162,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
             Rect addPlayerButtonRect =
                 GetWorldRect(playerSelectionWidget.addPlayerButton.GetComponent<RectTransform>());
-            if (droppedRect.Overlaps(addPlayerButtonRect))
+            if (droppedRect.Overlaps(addPlayerButtonRect) && playerSelectionWidget.IsInteractable())
             {
                 playerSelectionWidget.RemovePlayer(gameObject);
                 End();

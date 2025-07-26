@@ -1,6 +1,7 @@
 using System;
 using Account;
 using Common;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ namespace UI.Common.PlayerSelectionWidget
         [SerializeField] private GlobalContext globalContext;
         [SerializeField] private Sprite addPlayerSprite;
         [SerializeField] private Sprite removePlayerSprite;
+        [SerializeField] private int minPlayersForRemoving;
         
         private Lib.Event _event;
         private Lib.EventListener _eventListener;
@@ -98,17 +100,33 @@ namespace UI.Common.PlayerSelectionWidget
 
         private bool IsFullPlayers()
         {
-            return globalContext.PData().players.Count < globalContext.gameSettings.maxPlayers;
+            return globalContext.PData().players.Count >= globalContext.gameSettings.maxPlayers;
+        }       
+        
+        private bool IsMinPlayers()
+        {
+            return globalContext.PData().players.Count <= minPlayersForRemoving;
         }
 
         private void UpdateAddPlayerButton()
         {
-            bool interactable = true;
-            if (addPlayerButton.GetComponent<Image>().sprite != removePlayerSprite)
-            {
-                interactable = IsFullPlayers();
-            }
-            addPlayerButton.GetComponent<Button>().interactable = interactable;
+            addPlayerButton.GetComponent<Button>().interactable = IsInteractable();
         }
+        
+        public override bool IsInteractable()
+        {
+            bool interactable = true;
+            if (addPlayerButton.GetComponent<Image>().sprite == addPlayerSprite)
+            {
+                interactable = !IsFullPlayers();
+            }
+            else if (addPlayerButton.GetComponent<Image>().sprite == removePlayerSprite)
+            {
+                interactable = !IsMinPlayers();
+            }
+
+            return interactable;
+        }
+        
     }
 }

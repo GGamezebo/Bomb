@@ -25,6 +25,11 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
 
         protected virtual void Awake() {}
 
+        public virtual bool IsInteractable()
+        {
+            return true;
+        }
+
         public void OpenEditWindow(int index, string playerName, int presetId)
         {
             var scriptComponent = editPlayerWindow.GetComponent<EditPlayerWidgetWindow>();

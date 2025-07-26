@@ -1,7 +1,10 @@
 using Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+
 
 namespace GameLogic
 {
@@ -16,23 +19,35 @@ namespace GameLogic
         
         private Lib.Event _event;
         private Vector2 _position;
+        
+        [SerializeField] public InputActionAsset uiActions;
 
         protected override void Awake()
         {
             base.Awake();
             _gameInput = new GameInput();
+            
+            EnhancedTouchSupport.Enable();
         }
         
         protected override void OnEnable()
         {
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp += OnFingerUp;
             base.OnEnable();
             _gameInput.Enable();
         }
-
+        
         protected override void OnDisable()
         {
+            UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerUp;
             _gameInput.Disable();
             base.OnDisable();
+        }
+        
+        void OnFingerUp(Finger finger)
+        {
+            // gameComponent.StartRound();
+            // _event.Call(Events.EvTouchStartRound);
         }
 
         protected void Start()
@@ -77,17 +92,17 @@ namespace GameLogic
             }
             else if (gameComponent.State == GameState.ReadyToStart)
             {
-                if (_clickAction.WasReleasedThisFrame())
-                {
-                    gameComponent.StartRound();
-                    _event.Call(Events.EvTouchStartRound);
-                }
+                // if (_clickAction.WasReleasedThisFrame())
+                // {
+                //     gameComponent.StartRound();
+                //     _event.Call(Events.EvTouchStartRound);
+                // }
             }
             else if (gameComponent.State == GameState.Result)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                    SceneManager.LoadScene(Scenes.MainMenu, LoadSceneMode.Single);
                 }
             }
         }
@@ -132,17 +147,17 @@ namespace GameLogic
             }
             else if (gameComponent.State == GameState.ReadyToStart)
             {
-                if (_clickAction.WasReleasedThisFrame())
-                {
-                    gameComponent.StartRound();
-                    _event.Call(Events.EvTouchStartRound);
-                }
+                // if (_clickAction.WasReleasedThisFrame())
+                // {
+                //     gameComponent.StartRound();
+                //     _event.Call(Events.EvTouchStartRound);
+                // }
             }
             else if (gameComponent.State == GameState.Result)
             {
                 if (_clickAction.WasReleasedThisFrame())
                 {
-                    SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                    SceneManager.LoadScene(Scenes.MainMenu, LoadSceneMode.Single);
                 }
             }
         }
