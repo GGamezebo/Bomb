@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using UI.TextAnimator;
 
 [CustomEditor(typeof(TextAnimator))]
 public class TextAnimatorCustomInspector : Editor

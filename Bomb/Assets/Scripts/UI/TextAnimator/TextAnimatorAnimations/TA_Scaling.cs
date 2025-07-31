@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UI.TextAnimator;
 
 public class TA_Scaling : ITextAnimation
 {

@@ -1,99 +1,104 @@
 using TMPro;
 using UnityEngine;
 
-public class TextAnimator : MonoBehaviour
+namespace UI.TextAnimator
 {
-    public TMP_Text textField;
-
-    public AnimationName currentAnimation;
-    public bool loop;
-    public float duration;
-
-    #region Animations properties
-
-    // Here for Unity Animator support
-    public float wavingOffsetX;
-    public float wavingOffsetY;
-    public float wavingSpeed;
-    public float wavingDelay;
-
-    public float scalingSpeed;
-    public float scalingDelay;
-
-    #endregion
-
-    private ITextAnimation _animation;
-    private TA_Waving _tA_Waving;
-    private TA_Scaling _tA_Scaling;
-
-    private float _timeElapsed;
-
-    void Start()
+    public class TextAnimator : MonoBehaviour
     {
-        Init();
-    }
+        public TMP_Text textField;
 
-    private void Init()
-    {
-        textField = GetComponent<TMP_Text>();
-        if (textField == null)
+        public AnimationName currentAnimation;
+        public bool loop;
+        public float duration;
+
+        #region Animations properties
+
+        // Here for Unity Animator support
+        public float wavingOffsetX;
+        public float wavingOffsetY;
+        public float wavingSpeed;
+        public float wavingDelay;
+
+        public float scalingSpeed;
+        public float scalingDelay;
+
+        #endregion
+
+        private ITextAnimation _animation;
+        private TA_Waving _tA_Waving;
+        private TA_Scaling _tA_Scaling;
+
+        private float _timeElapsed;
+
+        void Start()
         {
-            enabled = false;
-            return;
+            Init();
         }
 
-        _animation = SelectAnimation(currentAnimation);
-    }
-
-    void Update()
-    {
-        StartAnimation();
-    }
-
-    private void StartAnimation()
-    {
-        if (_animation != null)
+        private void Init()
         {
-            if (loop)
+            textField = GetComponent<TMP_Text>();
+            if (textField == null)
             {
-                _animation.Play();
+                enabled = false;
+                return;
             }
-            else
+
+            _animation = SelectAnimation(currentAnimation);
+        }
+
+        void Update()
+        {
+            StartAnimation();
+        }
+
+        private void StartAnimation()
+        {
+            if (_animation != null)
             {
-                _timeElapsed = Time.time;
-                if (_timeElapsed < duration)
+                if (loop)
                 {
                     _animation.Play();
                 }
+                else
+                {
+                    _timeElapsed = Time.time;
+                    if (_timeElapsed < duration)
+                    {
+                        _animation.Play();
+                    }
+                }
+            }
+        }
+
+        public void SetCurrent(AnimationName animation)
+        {
+            if (currentAnimation != animation)
+            {
+                currentAnimation = animation;
+                _animation = SelectAnimation(currentAnimation);
+            }
+        }
+
+        private ITextAnimation SelectAnimation(AnimationName current)
+        {
+            switch (current)
+            {
+                case AnimationName.Waving:
+                    if (_tA_Waving == null)
+                        _tA_Waving = new TA_Waving(this);
+                    return _tA_Waving;
+
+                case AnimationName.Scaling:
+                    if (_tA_Scaling == null)
+                        _tA_Scaling = new TA_Scaling(this);
+                    return _tA_Scaling;
+
+                default:
+                    return null;
             }
         }
     }
-
-    public void SetCurrent(AnimationName animation)
-    {
-        if (currentAnimation != animation)
-        {
-            currentAnimation = animation;
-            _animation = SelectAnimation(currentAnimation);
-        }
-    }
-
-    private ITextAnimation SelectAnimation(AnimationName current)
-    {
-        switch (current)
-        {
-            case AnimationName.Waving:
-                if (_tA_Waving == null)
-                    _tA_Waving = new TA_Waving(this);
-                return _tA_Waving;
-
-            case AnimationName.Scaling:
-                if (_tA_Scaling == null)
-                    _tA_Scaling = new TA_Scaling(this);
-                return _tA_Scaling;
-
-            default:
-                return null;
-        }
-    }
 }
+
+
