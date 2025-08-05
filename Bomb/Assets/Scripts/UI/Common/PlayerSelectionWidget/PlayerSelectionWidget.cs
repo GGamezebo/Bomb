@@ -16,6 +16,8 @@ namespace UI.Common.PlayerSelectionWidget
         
         private Lib.Event _event;
         private Lib.EventListener _eventListener;
+        
+        public bool HasStarted { get; private set; } = false;
 
         protected override void Awake()
         {
@@ -38,11 +40,20 @@ namespace UI.Common.PlayerSelectionWidget
             Clear();
             Init();
         }
+
+        void Start()
+        {
+            HasStarted = true;
+            ReInit();
+        }
         
         protected override void OnEnable()
         {
             base.OnEnable();
-            ReInit();
+            if (HasStarted)
+            {
+                ReInit();
+            }
             _eventListener.Add(Events.EvPlayerMoveBegin, new Action(OnPlayerMoveBegin));
             _eventListener.Add(Events.EvPlayerMoveEnd, new Action(OnPlayerMoveEnd));
         }
