@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 106751497307675196, guid: 22fd496168f3310449010c9321711731, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 587745937049002655, guid: 22fd496168f3310449010c9321711731, type: 3}
       propertyPath: m_Name
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3745802718655350724, guid: 22fd496168f3310449010c9321711731, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4163627361126254300, guid: 22fd496168f3310449010c9321711731, type: 3}
       propertyPath: playerSelection
@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5959936664542189086, guid: 22fd496168f3310449010c9321711731, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 700465661650797223, guid: 22fd496168f3310449010c9321711731, type: 3}

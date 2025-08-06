@@ -43,8 +43,8 @@ namespace GameLogic
         {
             base.Subscribe();
             EventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
-            EventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnPlayerRemoved));
-            EventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo>(OnPlayerModified));
+            EventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo, int>(OnPlayerRemoved));
+            EventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo, int>(OnPlayerModified));
         }
 
         private void Start()
@@ -73,12 +73,12 @@ namespace GameLogic
             UpdateAllStorage();
         }
 
-        private void OnPlayerRemoved(PlayerInfo playerName)
+        private void OnPlayerRemoved(PlayerInfo playerName, int playerIndex)
         {
             UpdateAllStorage();
         }
         
-        private void OnPlayerModified(PlayerInfo playerName)
+        private void OnPlayerModified(PlayerInfo playerName, int playerIndex)
         {
             UpdateAllStorage();
         }

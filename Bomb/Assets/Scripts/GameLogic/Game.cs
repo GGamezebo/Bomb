@@ -8,7 +8,7 @@ using Random = System.Random;
 
 namespace GameLogic
 {
-    public class Game : MonoBehaviour
+    public class Game : GameObserverMonoBehaviour
     {
         [SerializeField] 
         private GlobalContext globalContext;
@@ -28,12 +28,50 @@ namespace GameLogic
 
         private void OnEnable()
         {
+            base.OnEnable();
             globalContext = FindFirstObjectByType<GlobalContext>();
             _event = globalContext.MakeEvent();
 
 #if UNITY_EDITOR
             GetComponent<Debugger>().enabled = true;
 #endif
+        }
+
+        protected override void Subscribe()
+        {
+            EventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnPlayerAdded));
+            EventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo, int>(OnPlayerRemoved));
+            EventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo, int>(OnPlayerModified));
+            EventListener.Add(Events.EvPlayerSwapped, new Action<int, int>(OnPlayerSwapped));
+        }
+
+        private void OnPlayerAdded(PlayerInfo playerInfo)
+        {
+            _players.Add(new Player(playerInfo, globalContext.PData().players.Count));
+        }
+        
+        private void OnPlayerRemoved(PlayerInfo playerInfo, int playerIndex)
+        {
+            _players.RemoveAt(playerIndex);
+            if (currentPlayerIndex == playerIndex)
+            {
+                int newPlayerIndex = currentPlayerIndex == _players.Count ? 0 : currentPlayerIndex;
+                SetCurrentPlayerIndex(newPlayerIndex);
+            }
+        }      
+        
+        private void OnPlayerModified(PlayerInfo playerInfo, int playerIndex)
+        {
+            _players[playerIndex] = new Player(playerInfo, playerIndex);
+        }    
+        
+        private void OnPlayerSwapped(int index1, int index2)
+        {
+            (_players[index1], _players[index2]) = (_players[index2], _players[index1]);
+            if (currentPlayerIndex == index1 || currentPlayerIndex == index2)
+            {
+                SetCurrentPlayerIndex(currentPlayerIndex);
+            }
         }
 
         void Start()

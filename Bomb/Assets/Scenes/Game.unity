@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 797052178}
+  game: {fileID: 1743030065}
 --- !u!114 &797052178
 MonoBehaviour:
   m_ObjectHideFlags: 0

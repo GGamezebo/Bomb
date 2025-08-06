@@ -19,7 +19,7 @@ namespace UI.MainMenu
             _globalContext = FindFirstObjectByType<GlobalContext>();
             _eventListener = _globalContext.MakeEventListener();
             _eventListener.Add(Events.EvPlayerAdded, new Action<PlayerInfo>(OnAddPlayer));
-            _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo>(OnRemovePlayer));
+            _eventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo, int>(OnRemovePlayer));
         }
         
         private void OnDisable()
@@ -46,7 +46,7 @@ namespace UI.MainMenu
             UpdateState();
         }
 
-        private void OnRemovePlayer(PlayerInfo playerName)
+        private void OnRemovePlayer(PlayerInfo playerName, int playerIndex)
         {
             UpdateState();
         }

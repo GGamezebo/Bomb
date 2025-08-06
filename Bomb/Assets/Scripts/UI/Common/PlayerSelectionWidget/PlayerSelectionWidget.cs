@@ -96,7 +96,7 @@ namespace UI.Common.PlayerSelectionWidget
             playerInfo.name = playerName;
             playerInfo.presetId = presetId;
             globalContext.accountDataComponent.Save();
-            _event.Call(Events.EvPlayerModified, playerInfo);
+            _event.Call(Events.EvPlayerModified, playerInfo, playerIndex);
         }
         
         protected override void OnPlayerRemoved(int playerIndex)
@@ -105,7 +105,7 @@ namespace UI.Common.PlayerSelectionWidget
             globalContext.PData().players.RemoveAt(playerIndex);
             globalContext.accountDataComponent.Save();
             UpdateAddPlayerButton();
-            _event.Call(Events.EvPlayerRemoved, playerInfo);
+            _event.Call(Events.EvPlayerRemoved, playerInfo, playerIndex);
         }        
         protected override void OnSwapPlayerPositions(int index1, int index2)
         {
@@ -113,7 +113,7 @@ namespace UI.Common.PlayerSelectionWidget
             (players[index1], players[index2]) = (players[index2], players[index1]);
             globalContext.accountDataComponent.Save();
             UpdateAddPlayerButton();
-            _event.Call(Events.EvPlayerSwapped);
+            _event.Call(Events.EvPlayerSwapped, index1, index2);
         }
 
         private bool IsFullPlayers()

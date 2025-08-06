@@ -98,7 +98,7 @@ namespace Lib.Unity.UI.PlayerSelectionWidget
             float coeff = 0.45f * tableRectTransform.root.localScale.x;
             for (int i = 0; i < playerIcons.Count; i++)
             {
-                float angle = i * angleStep * Mathf.Deg2Rad;
+                float angle = -i * angleStep * Mathf.Deg2Rad;
                 Vector3 pos = center + new Vector3(Mathf.Cos(angle) * rect.width * coeff, Mathf.Sin(angle) * rect.height * coeff, 0);
                 playerIcons[i].transform.position = pos;
                 playerIcons[i].GetComponent<PlayerIconDragHandler>().ResetPosition(pos);

@@ -8,16 +8,21 @@ namespace UI.HUD
     public class PlayerName : GameObserverMonoBehaviour
     {
         [SerializeField] private TMPro.TextMeshProUGUI textComponent;
+        [SerializeField] private Game game;
 
         protected override void Subscribe()
         {
             EventListener.Add(Events.EvCurrentPlayerChanged, new Action<Player>(OnCurrentPlayerChanged));
         }
 
-
         private void OnCurrentPlayerChanged(Player currentPlayer)
         {
-            textComponent.text = currentPlayer.Name;
+            UpdatePlayerName();
+        }
+
+        private void UpdatePlayerName()
+        {
+            textComponent.text = game.GetCurrentPlayer().Name;
         }
     }
 }
