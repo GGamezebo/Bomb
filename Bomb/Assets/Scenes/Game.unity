@@ -395,7 +395,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5120844437825022175, guid: 504c61e0ee9671840a1295d4c4b99cbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1112863704}
   m_SourcePrefab: {fileID: 100100000, guid: 504c61e0ee9671840a1295d4c4b99cbc, type: 3}
 --- !u!114 &301042393 stripped
 MonoBehaviour:
@@ -1804,6 +1807,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5120844437825022175, guid: 504c61e0ee9671840a1295d4c4b99cbc, type: 3}
   m_PrefabInstance: {fileID: 301042392}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1112863704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112863703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881cf4582b8e641c49b4e1d2de3a4c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomHapticPatternA:
+    IOS_HapticPattern: []
+    Android_HapticPattern: []
+  CustomHapticPatternB:
+    IOS_HapticPattern: []
+    Android_HapticPattern: []
 --- !u!1 &1118575176
 GameObject:
   m_ObjectHideFlags: 0
