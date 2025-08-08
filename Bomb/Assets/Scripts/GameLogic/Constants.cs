@@ -6,6 +6,7 @@ namespace GameLogic
     public enum GameState
     {
         Inactive,
+        PlayerChoice,
         Countdown,
         Play,
         Explosion,

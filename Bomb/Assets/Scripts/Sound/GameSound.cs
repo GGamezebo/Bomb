@@ -19,11 +19,11 @@ namespace Sound
             }
         }
         
-        public static void PlayOneShot([CanBeNull] AudioSource audioSource, [CanBeNull] AudioClip audioClip)
+        public static void PlayOneShot([CanBeNull] AudioSource audioSource, [CanBeNull] AudioClip audioClip, float volumeScale=1)
         {
             if (audioSource&& audioClip)
             {
-                audioSource.PlayOneShot(audioClip);
+                audioSource.PlayOneShot(audioClip, volumeScale);
             }
         }
     }
@@ -56,15 +56,24 @@ namespace Sound
         private AudioSource musicAudioSource;
         
         [SerializeField]
-        private AudioClip playMusicLoop;
+        private AudioClip playMusicLoop;        
 
         protected override void Subscribe()
         {
             EventListener.Add(Events.EvAlert, new Action(OnAlert));
             EventListener.Add(Events.EvGameStateChanged, new Action<GameState>(OnGameStateChanged));
             EventListener.Add(Events.EvCountDownTickChanged, new Action<int>(OnCountDownTickChanged));
+            EventListener.Add(Events.EvCurrentPlayerChanged, new Action<Player>(OnCurrentPlayerChanged));
         }
-
+        
+        private void OnCurrentPlayerChanged(Player currentPlayer)
+        {
+            var game = gameObject.GetComponent<Game>();
+            if (game.State == GameState.PlayerChoice)
+            {
+                //SoundUtils.PlayOneShot(audioSource, countdownTickShot, 0.5f);
+            }
+        }
 
         void OnCountDownTickChanged(int count)
         {

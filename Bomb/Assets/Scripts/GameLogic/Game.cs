@@ -26,6 +26,8 @@ namespace GameLogic
         private bool _isBlockedPrevPlayer = false;
         private int _lastSecond = -1;
 
+        private int _maxRandPlayerChoices;
+
         private void OnEnable()
         {
             base.OnEnable();
@@ -43,6 +45,11 @@ namespace GameLogic
             EventListener.Add(Events.EvPlayerRemoved, new Action<PlayerInfo, int>(OnPlayerRemoved));
             EventListener.Add(Events.EvPlayerModified, new Action<PlayerInfo, int>(OnPlayerModified));
             EventListener.Add(Events.EvPlayerSwapped, new Action<int, int>(OnPlayerSwapped));
+        }
+        
+        private static float EaseOutQuad(float t) 
+        {
+            return 1 - (1 - t) * (1 - t);
         }
 
         private void OnPlayerAdded(PlayerInfo playerInfo)
@@ -111,11 +118,15 @@ namespace GameLogic
         private void StartGame()
         {
             NextCard();
-            StartRound();
+            ResetRound();
+            Random random = new Random();
+            _maxRandPlayerChoices = 40 + random.Next(0, _players.Count);
+            SetState(GameState.PlayerChoice);
         }
 
         public Player GetCurrentPlayer()
         {
+            Debug.Log(currentPlayerIndex.ToString() + " - " + _players.Count.ToString());
             return _players[currentPlayerIndex];
         }
 
@@ -195,6 +206,15 @@ namespace GameLogic
             {
                 case GameState.Inactive:
                     break;
+                case GameState.PlayerChoice:
+                    var number = Mathf.Lerp(0, _maxRandPlayerChoices, EaseOutQuad(gameTime / GameSettings.playerChoiceTime));
+                    var index = (int)number % _players.Count;
+                    SetCurrentPlayerIndex(index);
+                    if (gameTime > GameSettings.playerChoiceTime)
+                    {
+                        SetState(GameState.ReadyToStart);
+                    }
+                    break;
                 case GameState.Countdown:
                     int currentSecond = Mathf.FloorToInt(gameTime);
                     if (currentSecond > _lastSecond)
@@ -237,11 +257,15 @@ namespace GameLogic
 
         public void StartRound()
         {
+            ResetRound();
+            SetState(GameState.Countdown);
+        }
+
+        private void ResetRound()
+        {
             gameTime = 0;
             _lastSecond = -1;
             _isBlockedPrevPlayer = true;
-            ;
-            SetState(GameState.Countdown);
         }
 
         public void OnAlert()

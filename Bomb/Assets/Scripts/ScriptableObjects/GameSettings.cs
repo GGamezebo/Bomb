@@ -19,6 +19,7 @@ namespace ScriptableObjects
             new PlayerInfo("German", 1),
         };
 
+        public float playerChoiceTime = 5.0f;
         public float countdownTime = 5.0f;
         public float minBombAliveTime = 10.0f;
         public float maxBombAliveTime = 60.0f;
