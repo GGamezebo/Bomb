@@ -126,7 +126,6 @@ namespace GameLogic
 
         public Player GetCurrentPlayer()
         {
-            Debug.Log(currentPlayerIndex.ToString() + " - " + _players.Count.ToString());
             return _players[currentPlayerIndex];
         }
 
