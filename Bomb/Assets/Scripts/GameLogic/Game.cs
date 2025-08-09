@@ -28,7 +28,7 @@ namespace GameLogic
 
         private int _maxRandPlayerChoices;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             base.OnEnable();
             globalContext = FindFirstObjectByType<GlobalContext>();
